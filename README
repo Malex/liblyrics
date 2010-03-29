@@ -1,12 +1,11 @@
-Liblyrics is a library written in C++ for excercise.
+liblyrics is an exercise library written in C++.
 
-It gives a simple interface to get the text of songs, by using
-a simple system of databases and web crawling, linked by a 
-disptacher.
+Its purpose is to provide to a user a simple interface to obtain
+song's lyrics from a local database or a web crawler, linked by 
+a dispatcher.
 
-It requires the title and the author of the song (to avoid
-possible songs with the same title) and returns the text,
-first checking if that song is already in its databse; if not
-it search on some websites (at the moment only lyrics.com) for
-the song, parse the page obtained so and, if found, put it into
-the database. Then it returns you the text.
+It requires the song's author and title.
+The library first checks if that song is already in the local database, 
+if it's not it searches it on some websites (like chartlyrics.com ), 
+it parses the output (if the research was successfull).
+Last if finally returns you the complete song's lyric.
