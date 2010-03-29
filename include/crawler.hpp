@@ -12,6 +12,9 @@ class crawler {
 	public:
 
 	lyric getLyric(sitemode site, string auth, string title);
+	crawler() {
+		this->curl = curl_easy_init();
+	}
 
 	private:
 
@@ -21,12 +24,6 @@ class crawler {
 	/* e qua mi stavo impiantando
 	string getText(
 	*/
-
-	//instanzia curl
-	void initCURL() {
-		this->curl = curl_easy_init();
-	}
-
 
 };
 #endif // LYRICS_CRAWLER_HPP
