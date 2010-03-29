@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#define uint unsigned int
+
 namespace lyrics {
 
 enum status_t {
@@ -11,7 +13,7 @@ enum status_t {
 	DB_NO_ENTRY	= 1,
 	DB_OTHER	= 2,
 	WEB_NO_RES	= 3,
-	WEB_OTHER	= 4,
+	WEB_OTHER	= 4
 };
 
 class errors {
