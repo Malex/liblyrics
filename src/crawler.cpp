@@ -58,8 +58,7 @@ lyric crawler::getLyric(sitemode site, std::string auth, std::string title)
 		ret->e.setError(WEB_OTHER);
 	} else if(this->e == ParsingErr) {
 		ret->e.setError(WEB_NO_RES);
-	}
-	else {
+	} else {
 		ret = new lyric(title,auth,lyr);
 	}
 
