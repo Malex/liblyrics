@@ -14,8 +14,13 @@ class crawler {
 	public:
 
 	lyric getLyric(sitemode site, string auth, string title);
+
 	crawler() {
 		this->curl = curl_easy_init();
+	}
+
+	~crawler() {
+		curl_easy_cleanup(this->curl);
 	}
 
 	private:
@@ -23,9 +28,7 @@ class crawler {
 	CURL* curl;
 	CURLcode res;
 
-	/* e qua mi stavo impiantando
-	string getText(
-	*/
+	string getText(string path);
 
 };
 #endif // LYRICS_CRAWLER_HPP
