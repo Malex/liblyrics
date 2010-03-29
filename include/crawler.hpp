@@ -1,10 +1,12 @@
 #ifndef LYRICS_CRAWLER_HPP
 #define LYRICS_CRAWLER_HPP
 
+
+#include "types.hpp"
 #include <curl/curl.h>
 
 enum sitemode {
-	ChartLyrics = 0;
+	ChartLyrics = 0
 };
 
 class crawler {
