@@ -2,7 +2,6 @@
 #define TYPES_HPP
 
 #include <string>
-#include <vector>
 
 #define uint unsigned int
 
@@ -36,6 +35,10 @@ class errors {
 
 	std::string getErrMsg() {
 		return this->eMsg[this->status];
+	}
+
+	void setError( int error ) {
+		this->status = error;
 	}
 
 	private:
