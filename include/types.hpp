@@ -1,5 +1,5 @@
-#ifndef TIPES_HPP
-#define TYPES_HPP
+#ifndef LYRICS_TIPES_HPP
+#define LYRICS_TYPES_HPP
 
 #include <string>
 
