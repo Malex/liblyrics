@@ -7,6 +7,7 @@ disptacher.
 It requires the title and the author of the song (to avoid
 possible songs with the same title) and returns the text,
 first checking if that song is already in its databse; if not
-it search on some websites (at the moment only lyrics.com) for
-the song, parse the page obtained so and, if found, put it into
+it searches on some websites (at the moment just using the
+chartlyrics.com APIs) for
+the song, parses the page obtained so and, if found, puts it into
 the database. Then it returns you the text.
