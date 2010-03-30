@@ -1,6 +1,6 @@
 /*
  *  This file is part of liblyrics
- *  Copyright (C) 2010  
+ *  Copyright (C) 2010
  *  	tilde  <tilde AT autistici DOT org>
  *  	malex  <malexprojects AT gmail DOT com>
  *
@@ -35,14 +35,15 @@ enum sitemode {
 enum curlErr {
 	NoErr = 0,
 	ConnectionErr = 1,
-	ParsingErr = 2
+	NotSuchSite = 2,
+	ParsingErr = 3
 };
 
 class crawler {
 
 	public:
 
-	lyric getLyric(sitemode site, std::string auth, std::string title);
+	lyric getLyric(sitemode, std::string, std::string);
 
 	crawler() {
 		this->curl = curl_easy_init();
@@ -52,7 +53,7 @@ class crawler {
 		curl_easy_cleanup(this->curl);
 	}
 
-	//std::string getCurlErrMessage();
+	std::string getCurlErrMessage();
 
 	private:
 
@@ -60,16 +61,17 @@ class crawler {
 	CURLcode res;
 
 	curlErr e;
-	//char* errMessage;
+	char* errMessage;
 
 	//Needed for cURL
-	static int curl_write(char* data,size_t size,size_t nsize,std::string* buffer);
+	static int curl_write(char*,size_t,size_t,std::string*);
 
 	// Questa funzione si occupa di prendere l'XML e di insegnare gli errori.
-	std::string getData(std::string path);
+	std::string getData(std::string);
+
 	// Questa funzione si occupa del parsing, compresa la trascrizione degli errori sull'oggetto 'e'
 	// della lyric che verrà restituita.
-	lyrics::lyric getLyricFromXML(std::string data);
+	lyrics::lyric* getLyricFromXML(std::string);
 
 };
 
