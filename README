@@ -1,11 +1,7 @@
-liblyrics is an exercise library written in C++.
+liblyrics is a library written in C++.
 
 Its purpose is to provide to a user a simple interface to obtain
-song's lyrics from a local database or a web crawler, linked by 
-a dispatcher.
+song's lyrics from a local database or a web crawler.
 
-It requires the song's author and title.
-The library first checks if that song is already in the local database, 
-if it's not it searches it on some websites (like chartlyrics.com ), 
-it parses the output (if the research was successfull).
-Last if finally returns you the complete song's lyric.
+It requires the song's author and title. But it will provide a search
+function for search in the db and other cool stuff.
