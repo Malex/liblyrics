@@ -18,9 +18,9 @@ types : $(INCL)/types.hpp
 	$(CC) -c $(CFLAGS) $(DIR)/types.cpp -o $(BIN)/types.o
 
 crawlerTest : crawler ./examples/crawlerTest.cpp
-	 $(CC) $(CFLAGS) $(EXMPL)/crawlerTest.cpp -o $(EXMPL)/crawlerTest.example $(BIN)/crawler.o
+	 $(CC) $(CFLAGS) $(EXMPL)/crawlerTest.cpp -o $(EXMPL)/crawlerTest.example $(BIN)/crawler.o $(BIN)/types.o -l curl
 
-crawler : $(INCL)/crawler.hpp $(DIR)/crawler.cpp
+crawler : types $(INCL)/crawler.hpp $(DIR)/crawler.cpp
 	$(CC) -c $(CFLAGS) $(DIR)/crawler.cpp -o $(BIN)/crawler.o
 
 clean :
