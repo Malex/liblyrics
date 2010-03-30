@@ -65,7 +65,10 @@ class crawler {
 	//Needed for cURL
 	static int curl_write(char* data,size_t size,size_t nsize,std::string* buffer);
 
+	// Questa funzione si occupa di prendere l'XML e di insegnare gli errori.
 	std::string getData(std::string path);
+	// Questa funzione si occupa del parsing, compresa la trascrizione degli errori sull'oggetto 'e'
+	// della lyric che verrà restituita.
 	lyrics::lyric getLyricFromXML(std::string data);
 
 };
