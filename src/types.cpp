@@ -54,10 +54,11 @@ void errors::setStatus( int error ) {
 // TODO: Sistemare più in dettaglio con gli errori di curl.
 void errors::initeMsg() {
 	eMsg[0]	= "All ok.";
-	eMsg[1] = "No corrispondence in db.";		
-	eMsg[2] = "Unknown db error.";
-	eMsg[3] = "No corrispondence in internet.";
-	eMsg[4] = "Unknown web error.";
+	eMsg[1] = "The lyric was not initialized.";
+	eMsg[2] = "No corrispondence in db.";		
+	eMsg[3] = "Unknown db error.";
+	eMsg[4] = "No corrispondence in internet.";
+	eMsg[5] = "Unknown web error.";
 }
 
 
@@ -65,7 +66,7 @@ void errors::initeMsg() {
 
 lyric::lyric() {
 	this->setData( "", "", "" );
-	//TODO: this->e.setError( LOLEMPTY );
+	this->e.setStatus( NOT_INIT );
 }
 
 lyric::lyric( string title, string auth, string text ) {
@@ -88,4 +89,5 @@ void lyric::setData( string title, string auth, string text ) {
 	this->title	= title;
 	this->author	= auth;
 	this->text	= text;
+	this->e.setStatus( OK );
 }

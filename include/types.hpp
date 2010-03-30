@@ -32,10 +32,11 @@ typedef unsigned int uint;
 // TODO: Sistemare più in dettaglio con gli errori di curl.
 enum status_t {
 	OK		= 0,
-	DB_NO_ENTRY	= 1,
-	DB_OTHER	= 2,
-	WEB_NO_RES	= 3,
-	WEB_OTHER	= 4
+	NOT_INIT	= 1,
+	DB_NO_ENTRY	= 2,
+	DB_OTHER	= 3,
+	WEB_NO_RES	= 4,
+	WEB_OTHER	= 5
 };
 
 class errors {
@@ -55,7 +56,7 @@ class errors {
 	void initeMsg(); 
 
 	status_t status;
-	std::string eMsg[5];
+	std::string eMsg[6];
 };
 
 class lyric {
