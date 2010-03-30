@@ -23,6 +23,7 @@
 #define LYRICS_DBINTERFACE_HPP
 
 #include <string>
+#include <sqlite3.h>
 
 namespace lyrics{
 
