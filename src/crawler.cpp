@@ -86,7 +86,7 @@ lyric crawler::getLyric(sitemode site, string auth, string title)
 
 	switch(site) {
 		case ChartLyrics:
-			path = "http://api.chartlyrics.com/apiv1.asmx/SearchLyric?artist="+auth+"&song="+title;
+			path = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist="+auth+"&song="+title;
 			break;
 		default:
 			this->e = NotSuchSite;
