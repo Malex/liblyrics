@@ -22,9 +22,11 @@
 #ifndef LYRICS_CRAWLER_HPP
 #define LYRICS_CRAWLER_HPP
 
-
-#include "types.hpp"
+#include <string>
 #include <curl/curl.h>
+#include "types.hpp"
+
+namespace lyrics {
 
 enum sitemode {
 	ChartLyrics = 0
@@ -64,7 +66,10 @@ class crawler {
 	static int curl_write(char* data,size_t size,size_t nsize,std::string* buffer);
 
 	std::string getData(std::string path);
-	std::string TextFromData(std::string data);
+	lyrics::lyric getLyricFromXML(std::string data);
 
 };
+
+}  // namespace lyrics
+
 #endif // LYRICS_CRAWLER_HPP

@@ -18,12 +18,15 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
+#include <string>
 #include "crawler.hpp"
 
-std::string crawler::getData(std::string path)
+using namespace std;
+using namespace lyrics;
+
+string crawler::getData(string path)
 {
-	std::string ret;
+	string ret;
 	uint perform;
 
 	curl_easy_setopt( this->curl, CURLOPT_URL, path.c_str() );
@@ -39,7 +42,7 @@ std::string crawler::getData(std::string path)
 	return ret;
 }
 
-static int crawler::curl_write(char* data,size_t size,size_t nsize,std::string* buffer)
+static int crawler::curl_write(char* data,size_t size,size_t nsize,string* buffer)
 {
 	int ret = 0;
 	if(buffer!=NULL) {
@@ -49,7 +52,7 @@ static int crawler::curl_write(char* data,size_t size,size_t nsize,std::string* 
 	return ret;
 }
 
-/*std::string getCurlErrMessage()
+/*string getCurlErrMessage()
 {
 	if(this->e == ConnectionErr) {
 		return (string) this->errMessage;
@@ -58,10 +61,12 @@ static int crawler::curl_write(char* data,size_t size,size_t nsize,std::string* 
 	}
 }*/
 
-lyric crawler::getLyric(sitemode site, std::string auth, std::string title)
+// NO! GetLyric prende soltanto il file XML, a riempire un oggeto lyric ci penserà
+// la funzione getLyricFromXML.
+lyric crawler::getLyric(sitemode site, string auth, string title)
 {
-	std::string path;
-	std::string lyr;
+	string path;
+	string lyr;
 	lyric* ret
 
 	switch(site) {
@@ -69,6 +74,7 @@ lyric crawler::getLyric(sitemode site, std::string auth, std::string title)
 			path = "http://api.chartlyrics.com/apiv1.asmx/SearchLyric?artist="+auth+"&song="+title;
 			break;
 		default:
+		// TODO: contemplare anche la mancanza del sito richiesto tra gli errori.
 			path = "";
 			break;
 	}
