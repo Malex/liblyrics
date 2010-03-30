@@ -82,6 +82,6 @@ class lyric {
 };
 
 
-}
+} // namespace lyrics
 
 #endif // TYPES_HPP

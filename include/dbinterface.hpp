@@ -22,5 +22,39 @@
 #ifndef LYRICS_DBINTERFACE_HPP
 #define LYRICS_DBINTERFACE_HPP
 
+#include <string>
+
+namespace lyrics{
+
+class dbinterface {
+
+	public:
+	
+	dbinterface();
+	dbinterface( std::string dbPath );
+	// questo ↑ è provvisorio, alla fine sarà
+	// dbinterface( config );
+	
+	lyric get( string title, string author);
+	void addEntry( lyric );
+	// per ora non serve altro.
+
+	private:
+
+	void dbinit();
+
+	string dbpath;
+	sqlite3*	dbHandle;
+	sqlite3_stmt*	stmt;
+	uint 		retval;
+	// Queryes. TODO: c'è un modo migliore?
+	string QgetEntry;
+	string QaddEntry;
+
+
+
+};
+
+} // namespace lyrics
 
 #endif // LYRICS_DBINTERFACE_HPP
