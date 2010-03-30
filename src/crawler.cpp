@@ -19,7 +19,6 @@
 */
 
 #include <string>
-#include <iostream>
 #include "crawler.hpp"
 
 using namespace std;
@@ -73,8 +72,6 @@ string crawler::atohex(string str)
 			i+=2;
 		}
 	}
-
-	cout << str << endl;
 	return str;
 }
 
