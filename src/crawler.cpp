@@ -1,8 +1,8 @@
 /*
  *  This file is part of liblyrics
- *  Copyright (C) 2010  
+ *  Copyright (C) 2010
  *  	tilde  <tilde AT autistici DOT org>
- *  	malex
+ *  	malex  <malexprojects AT gmail DOT com>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,22 +27,21 @@ using namespace lyrics;
 string crawler::getData(string path)
 {
 	string ret;
-	uint perform;
 
 	curl_easy_setopt( this->curl, CURLOPT_URL, path.c_str() );
 	curl_easy_setopt( this->curl, CURLOPT_HEADER, 0 );
 	curl_easy_setopt( this->curl, CURLOPT_WRITEDATA, &ret );
 	curl_easy_setopt( this->curl, CURLOPT_WRITEFUNCTION, crawler::curl_write );
-	//curl_easy_setopt( this->curl, CURLOPT_ERRORBUFFER, this->errMessage );
+	curl_easy_setopt( this->curl, CURLOPT_ERRORBUFFER, this->errMessage );
 
-	perform = curl_easy_perform(this->curl);
-	if(perform!=0) {
+	this->res = curl_easy_perform(this->curl);
+	if(this->res!=0) {
 		this->e = ConnectionErr;
 	}
 	return ret;
 }
 
-static int crawler::curl_write(char* data,size_t size,size_t nsize,string* buffer)
+int crawler::curl_write(char* data,size_t size,size_t nsize,string* buffer)
 {
 	int ret = 0;
 	if(buffer!=NULL) {
@@ -52,49 +51,105 @@ static int crawler::curl_write(char* data,size_t size,size_t nsize,string* buffe
 	return ret;
 }
 
-/*string getCurlErrMessage()
+string crawler::getCurlErrMessage()
 {
 	if(this->e == ConnectionErr) {
 		return (string) this->errMessage;
 	} else {
 		return "No cURL Error";
 	}
-}*/
+}
 
-// NO! GetLyric prende soltanto il file XML, a riempire un oggeto lyric ci penserà
-// la funzione getLyricFromXML.
+string crawler::atohex(string str)
+{
+	char tmp[2];
+
+	for(uint i=0;i<str.length();i++) {
+		if((char) str[i] < 65 || ((char) str[i] > 90 && (char) str[i] < 97) || (char) str[i] > 122) {
+			sprintf(tmp,"%x",(char) str[i]);
+			str.insert(i,"%"+(string) tmp);
+			str.erase(i,1);
+			i+=2;
+		}
+	}
+
+	return str;
+}
+
 lyric crawler::getLyric(sitemode site, string auth, string title)
 {
 	string path;
 	string lyr;
-	lyric* ret
+	lyric* ret;
+
+	auth = crawler::atohex(auth);
+	title = crawler::atohex(title);
 
 	switch(site) {
 		case ChartLyrics:
 			path = "http://api.chartlyrics.com/apiv1.asmx/SearchLyric?artist="+auth+"&song="+title;
 			break;
 		default:
-		// TODO: contemplare anche la mancanza del sito richiesto tra gli errori.
-			path = "";
+			this->e = NotSuchSite;
 			break;
 	}
 
-	lyr = this->TextFromData( this->getData(path) );
+	if(this->e != NotSuchSite)
+		lyr = this->getData(path);
+	else
+		ret->e.setStatus(WEB_OTHER);
 
 	if(this->e == ConnectionErr) {
-		ret->e.setError(WEB_OTHER);
-	} else if(this->e == ParsingErr) {
-		ret->e.setError(WEB_NO_RES);
+		ret->e.setStatus(WEB_OTHER);
 	} else {
-		ret = new lyric(title,auth,lyr);
+		ret = this->getLyricFromXML(lyr);
+	}
+
+	if(this->e == ParsingErr) {
+		ret->e.setStatus(WEB_NO_RES);
 	}
 
 	return *ret;
 }
 
+lyric* crawler::getLyricFromXML(string data)
+{
+	lyric* ret;
+	string auth, title, text;
+	size_t auth_p[2], title_p[2], text_p[2];
 
+	title_p[0] = data.find("<LyricSong>");
+	title_p[1] = data.find("</LyricSong>");
+	if(title_p[0] != string::npos) {
+		title = data.substr(title_p[0]+12,title_p[1]-(title_p[0]+11));
+	} else {
+		title = "";
+	}
 
+	auth_p[0] = data.find("<LyricArtist>");
+	auth_p[1] = data.find("</LyricArtist>");
+	if(auth_p[0] != string::npos) {
+		auth = data.substr(auth_p[0]+14,auth_p[1]-(auth_p[0]+13));
+	} else {
+		auth = "";
+	}
 
+	text_p[0] = data.find("<Lyric>");
+	text_p[1] = data.find("</Lyric>");
+	if(text_p[0] != string::npos) {
+		text = data.substr(text_p[0]+8,text_p[1]-(text_p[0]+7));
+	} else {
+		text = "";
+	}
 
+	if(text == "" || title == "" || auth == "") {
+		this->e = ParsingErr;
+		ret = new lyric();
+		ret->e.setStatus(WEB_OTHER);
+	} else {
+		ret = new lyric(title,auth,text);
+	}
 
+	return ret;
+}
 
