@@ -19,6 +19,7 @@
 */
 
 #include <string>
+#include <iostream>
 #include "crawler.hpp"
 
 using namespace std;
@@ -68,11 +69,12 @@ string crawler::atohex(string str)
 		if((char) str[i] < 65 || ((char) str[i] > 90 && (char) str[i] < 97) || (char) str[i] > 122) {
 			sprintf(tmp,"%x",(char) str[i]);
 			str.insert(i,"%"+(string) tmp);
-			str.erase(i,1);
+			str.erase(i+3,1);
 			i+=2;
 		}
 	}
 
+	cout << str << endl;
 	return str;
 }
 
