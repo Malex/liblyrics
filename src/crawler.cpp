@@ -60,31 +60,30 @@ string crawler::getCurlErrMessage()
 	}
 }
 
+string crawler::atohex(string str)
+{
+	char tmp[2];
+
+	for(uint i=0;i<str.length();i++) {
+		if((char) str[i] < 65 || ((char) str[i] > 90 && (char) str[i] < 97) || (char) str[i] > 122) {
+			sprintf(tmp,"%x",(char) str[i]);
+			str.insert(i,"%"+(string) tmp);
+			str.erase(i,1);
+			i+=2;
+		}
+	}
+
+	return str;
+}
+
 lyric crawler::getLyric(sitemode site, string auth, string title)
 {
 	string path;
 	string lyr;
 	lyric* ret;
 
-	char tmp[2];
-
-	for(uint i=0;i<auth.length();i++) {
-		if((char) auth[i] < 65 || ((char) auth[i] > 90 && (char) auth[i] < 97) || (char) auth[i] > 122) {
-			sprintf(tmp,"%x",(char) auth[i]);
-			auth.insert(i,"%"+(string) tmp);
-			auth.erase(i,1);
-			i+=2;
-		}
-	}
-
-	for(uint j=0;j<title.length();j++) {
-		if((char) title[j] < 65 || ((char) title[j] > 90 && (char) title[j] < 97) || (char) title[j] > 122) {
-			sprintf(tmp,"%x",(char) title[j]);
-			title.insert(j,"%"+(string) tmp);
-			title.erase(j,1);
-			j+=2;
-		}
-	}
+	auth = crawler::atohex(auth);
+	title = crawler::atohex(title);
 
 	switch(site) {
 		case ChartLyrics:

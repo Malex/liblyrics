@@ -73,6 +73,8 @@ class crawler {
 	// della lyric che verrà restituita.
 	lyrics::lyric* getLyricFromXML(std::string);
 
+	static std::string atohex(std::string);
+
 };
 
 }  // namespace lyrics
