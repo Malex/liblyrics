@@ -96,16 +96,16 @@ lyric crawler::getLyric(sitemode site, string auth, string title)
 	if(this->e != NotSuchSite)
 		lyr = this->getData(path);
 	else
-		ret->e.setStatus(WEB_OTHER);
+		ret->e.setStatus(WEB_OTHER,"Not supported sitemode");
 
 	if(this->e == ConnectionErr) {
-		ret->e.setStatus(WEB_OTHER);
+		ret->e.setStatus(WEB_OTHER,this->getCurlErrMessage());
 	} else {
 		ret = this->getLyricFromXML(lyr);
 	}
 
 	if(this->e == ParsingErr) {
-		ret->e.setStatus(WEB_NO_RES);
+		ret->e.setStatus(WEB_NO_RES,"Not valid XML file");
 	}
 
 	return *ret;

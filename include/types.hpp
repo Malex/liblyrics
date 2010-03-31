@@ -1,6 +1,6 @@
 /*
  *  This file is part of liblyrics
- *  Copyright (C) 2010  
+ *  Copyright (C) 2010
  *  	tilde  <tilde AT autistici DOT org>
  *  	malex  <malexprojects AT gmail DOT com>
  *
@@ -50,13 +50,17 @@ class errors {
 
 	std::string getErrMsg();
 	void setStatus( int );
+	void setStatus( int, std::string);
 
 	private:
-	
-	void initeMsg(); 
+
+	void initeMsg();
 
 	status_t status;
 	std::string eMsg[6];
+	std::string errMsg;
+	//ok, questo fa schifo, ma non mi viene in mente un metodo migliore
+	bool isMsgErr;
 };
 
 class lyric {
@@ -66,7 +70,7 @@ class lyric {
 	lyric();
 	lyric( std::string, std::string , std::string ) ;
 
-	std::string getTitle(); 
+	std::string getTitle();
 	std::string getAuth();
 	std::string getText();
 	void setData( std::string, std::string, std::string );

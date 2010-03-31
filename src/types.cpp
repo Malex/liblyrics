@@ -1,6 +1,6 @@
 /*
  *  This file is part of liblyrics
- *  Copyright (C) 2010  
+ *  Copyright (C) 2010
  *  	tilde  <tilde AT autistici DOT org>
  *  	malex  <malexprojects AT gmail DOT com>
  *
@@ -29,11 +29,13 @@ using namespace lyrics;
 errors::errors() {
 	status = OK;
 	this->initeMsg();
+	this->isMsgErr = false;
 }
 
 errors::errors( int init )  {
 	this->setStatus( init );
 	this->initeMsg();
+	this->isMsgErr = false;
 }
 
 status_t errors::getStatus() {
@@ -41,21 +43,29 @@ status_t errors::getStatus() {
 }
 
 string errors::getErrMsg()  {
-	return this->eMsg[this->status];
+	if(this->isMsgErr)
+		return this->errMsg;
+	else
+		return this->eMsg[this->status];
 }
 
 void errors::setStatus( int error ) {
 	this->status = (status_t)error;
 }
 
+void errors::setStatus( int error, string errStr)
+{
+	this->status = (status_t)error;
+	this->errMsg = errStr;
+	this->isMsgErr = true;
+}
 
 // Pivate.
 
-// TODO: Sistemare più in dettaglio con gli errori di curl.
 void errors::initeMsg() {
 	eMsg[0]	= "All ok.";
 	eMsg[1] = "The lyric was not initialized.";
-	eMsg[2] = "No corrispondence in db.";		
+	eMsg[2] = "No corrispondence in db.";
 	eMsg[3] = "Unknown db error.";
 	eMsg[4] = "No corrispondence in internet.";
 	eMsg[5] = "Unknown web error.";
