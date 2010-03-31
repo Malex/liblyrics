@@ -24,57 +24,6 @@
 using namespace std;
 using namespace lyrics;
 
-string crawler::getData(string path)
-{
-	string ret;
-
-	curl_easy_setopt( this->curl, CURLOPT_URL, path.c_str() );
-	curl_easy_setopt( this->curl, CURLOPT_HEADER, 0 );
-	curl_easy_setopt( this->curl, CURLOPT_WRITEDATA, &ret );
-	curl_easy_setopt( this->curl, CURLOPT_WRITEFUNCTION, crawler::curl_write );
-	curl_easy_setopt( this->curl, CURLOPT_ERRORBUFFER, this->errMessage );
-
-	this->res = curl_easy_perform(this->curl);
-	if(this->res!=0) {
-		this->e = ConnectionErr;
-	}
-	return ret;
-}
-
-int crawler::curl_write(char* data,size_t size,size_t nsize,string* buffer)
-{
-	int ret = 0;
-	if(buffer!=NULL) {
-		ret = size*nsize;
-		buffer->append(data,ret);
-	}
-	return ret;
-}
-
-string crawler::getCurlErrMessage()
-{
-	if(this->e == ConnectionErr) {
-		return (string) this->errMessage;
-	} else {
-		return "No cURL Error";
-	}
-}
-
-string crawler::atohex(string str)
-{
-	char tmp[2];
-
-	for(uint i=0;i<str.length();i++) {
-		if((char) str[i] < 65 || ((char) str[i] > 90 && (char) str[i] < 97) || (char) str[i] > 122) {
-			sprintf(tmp,"%x",(char) str[i]);
-			str.insert(i,"%"+(string) tmp);
-			str.erase(i+3,1);
-			i+=2;
-		}
-	}
-	return str;
-}
-
 lyric crawler::getLyric(sitemode site, string auth, string title)
 {
 	string path;
@@ -109,6 +58,42 @@ lyric crawler::getLyric(sitemode site, string auth, string title)
 	}
 
 	return *ret;
+}
+
+string crawler::getCurlErrMessage()
+{
+	if(this->e == ConnectionErr) {
+		return (string) this->errMessage;
+	} else {
+		return "No cURL Error";
+	}
+}
+
+int crawler::curl_write(char* data,size_t size,size_t nsize,string* buffer)
+{
+	int ret = 0;
+	if(buffer!=NULL) {
+		ret = size*nsize;
+		buffer->append(data,ret);
+	}
+	return ret;
+}
+
+string crawler::getData(string path)
+{
+	string ret;
+
+	curl_easy_setopt( this->curl, CURLOPT_URL, path.c_str() );
+	curl_easy_setopt( this->curl, CURLOPT_HEADER, 0 );
+	curl_easy_setopt( this->curl, CURLOPT_WRITEDATA, &ret );
+	curl_easy_setopt( this->curl, CURLOPT_WRITEFUNCTION, crawler::curl_write );
+	curl_easy_setopt( this->curl, CURLOPT_ERRORBUFFER, this->errMessage );
+
+	this->res = curl_easy_perform(this->curl);
+	if(this->res!=0) {
+		this->e = ConnectionErr;
+	}
+	return ret;
 }
 
 lyric* crawler::getLyricFromXML(string data)
@@ -152,3 +137,17 @@ lyric* crawler::getLyricFromXML(string data)
 	return ret;
 }
 
+string crawler::atohex(string str)
+{
+	char tmp[2];
+
+	for(uint i=0;i<str.length();i++) {
+		if((char) str[i] < 65 || ((char) str[i] > 90 && (char) str[i] < 97) || (char) str[i] > 122) {
+			sprintf(tmp,"%x",(char) str[i]);
+			str.insert(i,"%"+(string) tmp);
+			str.erase(i+3,1);
+			i+=2;
+		}
+	}
+	return str;
+}
