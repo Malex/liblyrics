@@ -24,6 +24,7 @@
 
 #include <string>
 #include <sqlite3.h>
+#include "types.hpp"
 
 namespace lyrics{
 
@@ -31,28 +32,24 @@ class dbinterface {
 
 	public:
 	
-	dbinterface();
 	dbinterface( std::string dbPath );
 	// questo ↑ è provvisorio, alla fine sarà
 	// dbinterface( config );
 	
-	lyric get( string title, string author);
+	lyric get( std::string title, std::string author);
 	void addEntry( lyric );
 	// per ora non serve altro.
 
 	private:
 
-	void dbinit();
+	void dbinit( std::string dbPath );
 
-	string dbpath;
+	std::string dbpath;
 	sqlite3*	dbHandle;
 	sqlite3_stmt*	stmt;
 	uint 		retval;
-	// Queryes. TODO: c'è un modo migliore?
-	string QgetEntry;
-	string QaddEntry;
-
-
+	
+	lyric outLyric;
 
 };
 

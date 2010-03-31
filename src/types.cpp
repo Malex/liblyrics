@@ -91,3 +91,7 @@ void lyric::setData( string title, string auth, string text ) {
 	this->text	= text;
 	this->e.setStatus( OK );
 }
+
+void lyric::setData( string* title, string* auth, string* text ) {
+	this->setData( *title, *auth, *text );
+}
