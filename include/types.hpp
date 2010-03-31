@@ -19,7 +19,7 @@
 */
 
 
-#ifndef LYRICS_TIPES_HPP
+#ifndef LYRICS_TYPES_HPP
 #define LYRICS_TYPES_HPP
 
 #include <string>
