@@ -1,6 +1,6 @@
 /*
  *  This file is part of liblyrics
- *  Copyright (C) 2010  
+ *  Copyright (C) 2010
  *  	tilde  <tilde AT autistici DOT org>
  *  	malex  <malexprojects AT gmail DOT com>
  *
@@ -18,4 +18,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifndef LYRICS_LYRICS_HPP
+#define LYRICS_LYRICS_HPP
 
+#include <string>
+#include "types.hpp"
+
+namespace lyrics {
+
+class dispatcher {
+
+	public:
+
+	lyric getLyric(std::string,std::string);
+
+	private:
+
+	//ok, è brutto, ma mi pareva il modo + semplice
+	bool inDatabase(std::string,std::string);
+
+	lyric getFromCrawler
+
+};
+
+} // namespace lyrics
+#endif //LYRICS_LYRICS_HPP

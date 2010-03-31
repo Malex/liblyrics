@@ -29,7 +29,6 @@ namespace lyrics {
 
 typedef unsigned int uint;
 
-// TODO: Sistemare più in dettaglio con gli errori di curl.
 enum status_t {
 	OK		= 0,
 	NOT_INIT	= 1,
