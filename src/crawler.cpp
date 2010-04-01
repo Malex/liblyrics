@@ -60,6 +60,15 @@ lyric crawler::getLyric(sitemode site, string auth, string title)
 	return *ret;
 }
 
+crawler::crawler()
+{
+	this->curl = curl_easy_init();
+
+	curl_easy_setopt( this->curl, CURLOPT_HEADER, 0 );
+	curl_easy_setopt( this->curl, CURLOPT_WRITEFUNCTION, crawler::curl_write );
+	curl_easy_setopt( this->curl, CURLOPT_ERRORBUFFER, this->errMessage );
+}
+
 string crawler::getCurlErrMessage()
 {
 	if(this->e == ConnectionErr) {
@@ -84,10 +93,7 @@ string crawler::getData(string path)
 	string ret;
 
 	curl_easy_setopt( this->curl, CURLOPT_URL, path.c_str() );
-	curl_easy_setopt( this->curl, CURLOPT_HEADER, 0 );
 	curl_easy_setopt( this->curl, CURLOPT_WRITEDATA, &ret );
-	curl_easy_setopt( this->curl, CURLOPT_WRITEFUNCTION, crawler::curl_write );
-	curl_easy_setopt( this->curl, CURLOPT_ERRORBUFFER, this->errMessage );
 
 	this->res = curl_easy_perform(this->curl);
 	if(this->res!=0) {

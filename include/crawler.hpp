@@ -45,9 +45,7 @@ class crawler {
 
 	lyric getLyric(sitemode, std::string, std::string);
 
-	crawler() {
-		this->curl = curl_easy_init();
-	}
+	crawler();
 
 	~crawler() {
 		curl_easy_cleanup(this->curl);
