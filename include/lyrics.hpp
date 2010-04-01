@@ -37,7 +37,8 @@ class dispatcher {
 	//ok, è brutto, ma mi pareva il modo + semplice
 	bool inDatabase(std::string,std::string);
 
-	lyric getFromCrawler
+	lyric getFromCrawler(sitemode,std::string,std::string);
+	lyric getFromDB(std::string,std::string);
 
 };
 
