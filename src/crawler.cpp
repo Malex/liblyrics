@@ -62,7 +62,7 @@ lyric crawler::getLyric(sitemode site, string auth, string title)
 
 crawler::crawler()
 {
-	curl_easy_init(this->curl);
+	this->curl = curl_easy_init();
 
 	curl_easy_setopt( this->curl, CURLOPT_HEADER, 0 );
 	curl_easy_setopt( this->curl, CURLOPT_WRITEFUNCTION, crawler::curl_write );
