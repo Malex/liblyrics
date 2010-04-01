@@ -20,7 +20,6 @@
 
 
 #include <string>
-#include <cstring> // duh!
 #include "dbinterface.hpp"
 #include "types.hpp"
 
@@ -39,9 +38,9 @@ lyric dbinterface::get( string title, string author ) {
 
 	string QGetEntry = "select distinct * from lyrics where \
 			title='"+title+"'and author='"+author+"'";
-	char* ltitle;
-	char* lauth;
-	char* ltext;
+	string ltitle;
+	string lauth;
+	string ltext;
 
 	// TODO: Gestione errori
 	this->retval = sqlite3_prepare_v2( dbHandle, QGetEntry.c_str(),
@@ -50,17 +49,17 @@ lyric dbinterface::get( string title, string author ) {
 	while( sqlite3_step(stmt) == SQLITE_ROW ) { 
 		for( int i=1; i<sqlite3_column_count(stmt); ++i ) {
 		
-			if( !strcmp(sqlite3_column_name(stmt, i), "title") ) {
+			if( (string)sqlite3_column_name(stmt, i) == "title")  {
 	
-				strcpy( ltitle, (char*)sqlite3_column_text(stmt,i) );
+				ltitle = (const char*)sqlite3_column_text(stmt,i);
 	
-			} else if( !strcmp(sqlite3_column_name(stmt, i), "author") ) {
+			} else if( (string)sqlite3_column_name(stmt, i) == "author") {
 	
-				strcpy( lauth, (char*)sqlite3_column_text(stmt,i) );
+				lauth = (const char*)sqlite3_column_text(stmt,i);
 	
-			} else if( !strcmp(sqlite3_column_name(stmt, i), "text") ) {
+			} else if( (string)sqlite3_column_name(stmt, i) == "text")  {
 	
-				strcpy( ltext, (char*)sqlite3_column_text(stmt,i) );
+				ltext = (const char*)sqlite3_column_text(stmt,i);
 	
 			} else {
 				//TODO: HERE
@@ -103,3 +102,4 @@ void dbinterface::dbinit( string dbPath ) {
 	this->retval = sqlite3_step( stmt );
 	
 }
+

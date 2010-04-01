@@ -6,14 +6,12 @@ DIR	= src
 BIN	= bin
 EXMPL	= examples
 
-all : types crawler
-# binterface
+all : types crawler dbinterface
 
-examples : typesTest crawlerTest
-# dbinterfaceTest
+examples : typesTest crawlerTest dbinterfaceTest
 
 clean :
-	rm -rf $(BIN)/* $(EXMPL)/*.example
+	rm -rf $(BIN)/* $(EXMPL)/*.example $(EXMPL)/*.db
 
 types : $(INCL)/types.hpp $(DIR)/types.cpp
 	$(CC) -c $(CFLAGS) $(DIR)/types.cpp -o $(BIN)/types.o
