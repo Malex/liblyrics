@@ -7,6 +7,7 @@ BIN	= bin
 EXMPL	= examples
 
 all : types crawler dbinterface
+	 if [[ ! -e $(BIN)/ ]]; then mkdir $(BIN); fi
 
 examples : typesTest crawlerTest dbinterfaceTest
 
