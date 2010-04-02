@@ -14,7 +14,7 @@ clean :
 	rm -rf $(BIN)/* $(EXMPL)/*.example $(EXMPL)/*.db
 
 types : $(INCL)/types.hpp $(DIR)/types.cpp
-	if [[ ! -e $(BIN)/ ]]; then mkdir $(BIN); fi
+	if [ ! -d $(BIN) ]; then mkdir $(BIN); fi   
 	$(CC) -c $(CFLAGS) $(DIR)/types.cpp -o $(BIN)/types.o
 
 crawler : types $(INCL)/crawler.hpp $(DIR)/crawler.cpp
