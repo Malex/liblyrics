@@ -45,9 +45,9 @@ lyric dbinterface::get( string title, string author ) {
 	// TODO: Gestione errori
 	this->retval = sqlite3_prepare_v2( dbHandle, QGetEntry.c_str(),
 				-1, &stmt, NULL );	
-	if( this->retval ) {
+/*	if( this->retval ) {
 		this->outLyric.e.setStatus( 
-	
+*/	
 	while( sqlite3_step(stmt) == SQLITE_ROW ) { 
 		for( int i=1; i<sqlite3_column_count(stmt); ++i ) {
 		
