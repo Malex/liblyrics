@@ -110,30 +110,7 @@ lyric* crawler::getLyricFromXML(string data)
 	title = crawler::getTagContent("<LyricSong>",&data);
 	auth = crawler::getTagContent("<LyricArtist>",&data);
 	text = crawler::getTagContent("<Lyric>",&data);
-	/*title_p[0] = data.find("<LyricSong>");
-	title_p[1] = data.find("</LyricSong>");
-	if(title_p[0] != string::npos) {
-		title = data.substr(title_p[0]+11,title_p[1]-(title_p[0]+11));
-	} else {
-		title = "";
-	}
 
-	auth_p[0] = data.find("<LyricArtist>");
-	auth_p[1] = data.find("</LyricArtist>");
-	if(auth_p[0] != string::npos) {
-		auth = data.substr(auth_p[0]+13,auth_p[1]-(auth_p[0]+13));
-	} else {
-		auth = "";
-	}
-
-	text_p[0] = data.find("<Lyric>");
-	text_p[1] = data.find("</Lyric>");
-	if(text_p[0] != string::npos) {
-		text = data.substr(text_p[0]+7,text_p[1]-(text_p[0]+7));
-	} else {
-		text = "";
-	}
-	*/
 	if(text == "" || title == "" || auth == "") {
 		this->e = ParsingErr;
 		ret = new lyric();
