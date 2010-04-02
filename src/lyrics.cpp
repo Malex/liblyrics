@@ -55,6 +55,7 @@ lyric dispatcher::getLyric(string title,string auth,sitemode site)
 
 	if(ret.e.getStatus()!= OK) {
 		ret = this->craw->getLyric(site,title,auth);
+		this->db->addEntry(ret);
 	}
 
 	return ret;
