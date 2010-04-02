@@ -23,6 +23,8 @@
 
 #include <string>
 #include "types.hpp"
+#include "crawler.hpp"
+#include "dbinterface.hpp"
 
 namespace lyrics {
 
@@ -30,9 +32,20 @@ class dispatcher {
 
 	public:
 
+	dispatcher();
+	dispatcher(std::string);
+
+	~dispatcher();
+
 	lyric getLyric(std::string,std::string);
+	lyric getLyric(std::string,std::string,sitemode);
+
+	std::string getStatus();
 
 	private:
+
+	std::string status;
+	void setStatus(std::string);
 
 	//ok, è brutto, ma mi pareva il modo + semplice
 	bool inDatabase(std::string,std::string);
@@ -40,6 +53,8 @@ class dispatcher {
 	lyric getFromCrawler(sitemode,std::string,std::string);
 	lyric getFromDB(std::string,std::string);
 
+	dbinterface* db;
+	crawler* craw;
 };
 
 } // namespace lyrics

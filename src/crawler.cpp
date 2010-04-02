@@ -24,7 +24,7 @@
 using namespace std;
 using namespace lyrics;
 
-lyric crawler::getLyric(sitemode site, string auth, string title)
+lyric crawler::getLyric(sitemode site, string title, string auth)
 {
 	string path;
 	string lyr;

@@ -1,6 +1,6 @@
 /*
  *  This file is part of liblyrics
- *  Copyright (C) 2010  
+ *  Copyright (C) 2010
  *  	tilde  <tilde AT autistici DOT org>
  *  	malex  <malexprojects AT gmail DOT com>
  *
@@ -18,4 +18,54 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <string>
+#include "lyrics.hpp"
 
+using namespace std;
+using namespace lyrics;
+
+dispatcher::dispatcher()
+{
+	this->db = new dbinterface("data.db");
+	this->craw = new crawler();
+}
+
+dispatcher::dispatcher(string dbPath)
+{
+	this->db = new dbinterface(dbPath);
+	this->craw = new crawler();
+}
+
+dispatcher::~dispatcher()
+{
+	delete this->db;
+	delete this->craw;
+}
+
+lyric dispatcher::getLyric(string title,string auth)
+{
+	return this->getLyric(title,auth,ChartLyrics);
+}
+
+lyric dispatcher::getLyric(string title,string auth,sitemode site)
+{
+	lyric ret;
+	if(this->inDatabase(title,auth))
+	{
+		ret = this->db->get(title,auth)
+	} else {
+		ret = this->crawler->getLyric(site,title,auth);
+	}
+
+	return ret;
+}
+
+string dispatcher::getStatus()
+{
+	return this->status;
+}
+
+void dispatcher::setStatus(string new_status)
+{
+	this->status = new_status;
+}
