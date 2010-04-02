@@ -73,7 +73,6 @@ class lyric {
 	std::string getAuth();
 	std::string getText();
 	void setData( std::string, std::string, std::string );
-	void setData( std::string*, std::string*, std::string* );
 
 	errors e;
 

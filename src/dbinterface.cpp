@@ -67,7 +67,7 @@ lyric dbinterface::get( string title, string author ) {
 		}
 	}
 	//TODO: Gestione errori
-	this->outLyric.setData( new string(ltitle), new string(lauth), new string(ltext) ); 
+	this->outLyric.setData( ltitle, lauth, ltext ); 
 	this->outLyric.e.setStatus( OK );
 	return this->outLyric;
 
