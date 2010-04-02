@@ -47,9 +47,6 @@ class dispatcher {
 	std::string status;
 	void setStatus(std::string);
 
-	//ok, è brutto, ma mi pareva il modo + semplice
-	bool inDatabase(std::string,std::string);
-
 	lyric getFromCrawler(sitemode,std::string,std::string);
 	lyric getFromDB(std::string,std::string);
 

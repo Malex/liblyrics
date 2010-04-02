@@ -50,11 +50,11 @@ lyric dispatcher::getLyric(string title,string auth)
 lyric dispatcher::getLyric(string title,string auth,sitemode site)
 {
 	lyric ret;
-	if(this->inDatabase(title,auth))
-	{
-		ret = this->db->get(title,auth)
-	} else {
-		ret = this->crawler->getLyric(site,title,auth);
+
+	ret = this->db->get(title,auth);
+
+	if(ret.e.getStatus()!= OK) {
+		ret = this->craw->getLyric(site,title,auth);
 	}
 
 	return ret;
