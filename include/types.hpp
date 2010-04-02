@@ -58,7 +58,7 @@ class errors {
 	status_t status;
 	std::string eMsg[6];
 	std::string errMsg;
-	//ok, questo fa schifo, ma non mi viene in mente un metodo migliore
+	// tilde: questo fa MOLTO schifo, me lo potevi dire xD
 	bool isMsgErr;
 };
 

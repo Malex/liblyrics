@@ -44,11 +44,10 @@ class dbinterface {
 
 	void dbinit( std::string dbPath );
 
-	std::string dbpath;
+	std::string 	dbpath;
 	sqlite3*	dbHandle;
 	sqlite3_stmt*	stmt;
 	uint 		retval;
-	
 	
 	lyric outLyric;
 

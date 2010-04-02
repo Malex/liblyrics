@@ -13,7 +13,7 @@ int main() {
 
 	db.addEntry( song );
 	
-	lyric ret = db.get( "fossi figode", "elio" );
+	lyric ret = db.get( "fossi figo", "elio" );
 
 	cout<<"Autore"<<setw(10)<<"Titolo"<<endl;
 	cout<<ret.getAuth()<<setw(16)<<ret.getTitle()<<endl;
