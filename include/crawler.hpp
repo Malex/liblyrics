@@ -72,6 +72,7 @@ class crawler {
 	lyrics::lyric* getLyricFromXML(std::string);
 
 	static std::string atohex(std::string);
+	static std::string getTagContent(std::string,std::string*);
 
 };
 

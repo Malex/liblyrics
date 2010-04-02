@@ -106,9 +106,11 @@ lyric* crawler::getLyricFromXML(string data)
 {
 	lyric* ret;
 	string auth, title, text;
-	size_t auth_p[2], title_p[2], text_p[2];
 
-	title_p[0] = data.find("<LyricSong>");
+	title = crawler::getTagContent("<LyricSong>",&data);
+	auth = crawler::getTagContent("<LyricArtist>",&data);
+	text = crawler::getTagContent("<Lyric>",&data);
+	/*title_p[0] = data.find("<LyricSong>");
 	title_p[1] = data.find("</LyricSong>");
 	if(title_p[0] != string::npos) {
 		title = data.substr(title_p[0]+11,title_p[1]-(title_p[0]+11));
@@ -131,7 +133,7 @@ lyric* crawler::getLyricFromXML(string data)
 	} else {
 		text = "";
 	}
-
+	*/
 	if(text == "" || title == "" || auth == "") {
 		this->e = ParsingErr;
 		ret = new lyric();
@@ -156,4 +158,22 @@ string crawler::atohex(string str)
 		}
 	}
 	return str;
+}
+
+string crawler::getTagContent(string tag, string* data)
+{
+	string ret;
+	size_t p[2];
+
+	p[0] = data->find(tag);
+	tag.insert(1,"/");
+	p[1] = data->find(tag);
+
+	if(p[0] != string::npos) {
+		ret = data->substr(p[0]+(tag.length())+1,p[1]-(p[0]+(tag.length())+1));
+	} else {
+		ret = "";
+	}
+
+	return ret;
 }
