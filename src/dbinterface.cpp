@@ -27,11 +27,9 @@ using namespace std;
 using namespace lyrics;
 
 dbinterface::dbinterface( string dbPath ) {
+
 	this->dbinit( dbPath );
 	
-	this->outLyric.setData( "","","" );
-	this->outLyric.e.setStatus( NOT_INIT );
-
 }
 
 lyric dbinterface::get( string title, string author ) {

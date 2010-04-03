@@ -18,11 +18,22 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <iostream> //DELETEME
 #include <string>
 #include "crawler.hpp"
 
 using namespace std;
 using namespace lyrics;
+
+
+crawler::crawler()
+{
+	this->curl = curl_easy_init();
+
+	curl_easy_setopt( this->curl, CURLOPT_HEADER, 0 );
+	curl_easy_setopt( this->curl, CURLOPT_WRITEFUNCTION, &crawler::curl_write );
+	curl_easy_setopt( this->curl, CURLOPT_ERRORBUFFER, this->errMessage );
+}
 
 lyric crawler::getLyric(sitemode site, string title, string auth)
 {
@@ -42,31 +53,24 @@ lyric crawler::getLyric(sitemode site, string title, string auth)
 			break;
 	}
 
-	if(this->e != NotSuchSite)
+
+	if(this->e != NotSuchSite) {
 		lyr = this->getData(path);
-	else
-		ret->e.setStatus(WEB_OTHER,"Not supported sitemode");
+	} else {
+		ret->e.setStatus( CURL_ERR ,"Not supported sitemode");
+	}
 
 	if(this->e == ConnectionErr) {
-		ret->e.setStatus(WEB_OTHER,this->getCurlErrMessage());
+		ret->e.setStatus( CURL_ERR ,this->getCurlErrMessage());
 	} else {
 		ret = this->getLyricFromXML(lyr);
 	}
 
 	if(this->e == ParsingErr) {
-		ret->e.setStatus(WEB_NO_RES,"Not valid XML file");
+		ret->e.setStatus( CURL_ERR ,"Not valid XML file");
 	}
 
 	return *ret;
-}
-
-crawler::crawler()
-{
-	this->curl = curl_easy_init();
-
-	curl_easy_setopt( this->curl, CURLOPT_HEADER, 0 );
-	curl_easy_setopt( this->curl, CURLOPT_WRITEFUNCTION, crawler::curl_write );
-	curl_easy_setopt( this->curl, CURLOPT_ERRORBUFFER, this->errMessage );
 }
 
 string crawler::getCurlErrMessage()
@@ -78,16 +82,6 @@ string crawler::getCurlErrMessage()
 	}
 }
 
-int crawler::curl_write(char* data,size_t size,size_t nsize,string* buffer)
-{
-	int ret = 0;
-	if(buffer!=NULL) {
-		ret = size*nsize;
-		buffer->append(data,ret);
-	}
-	return ret;
-}
-
 string crawler::getData(string path)
 {
 	string ret;
@@ -95,7 +89,16 @@ string crawler::getData(string path)
 	curl_easy_setopt( this->curl, CURLOPT_URL, path.c_str() );
 	curl_easy_setopt( this->curl, CURLOPT_WRITEDATA, &ret );
 
+
+
+/* TODO: Questa funzione ↓ causa segfault. 
+ * A volte ritorna questo errore:
+ * terminate called after throwing an instance of 'std::length_error' 
+ *   what():  basic_string::append  
+ *   Aborted
+ */
 	this->res = curl_easy_perform(this->curl);
+
 	if(this->res!=0) {
 		this->e = ConnectionErr;
 	}
@@ -114,7 +117,7 @@ lyric* crawler::getLyricFromXML(string data)
 	if(text == "" || title == "" || auth == "") {
 		this->e = ParsingErr;
 		ret = new lyric();
-		ret->e.setStatus(WEB_OTHER);
+		ret->e.setStatus( CURL_ERR );
 	} else {
 		ret = new lyric(title,auth,text);
 	}
@@ -152,5 +155,15 @@ string crawler::getTagContent(string tag, string* data)
 		ret = "";
 	}
 
+	return ret;
+}
+
+int crawler::curl_write(char* data,size_t size,size_t nsize,string* buffer)
+{
+	int ret = 0;
+	if(buffer!=NULL) {
+		ret = size*nsize;
+		buffer->append(data,ret);
+	}
 	return ret;
 }

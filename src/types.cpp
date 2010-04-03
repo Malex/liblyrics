@@ -28,14 +28,7 @@ using namespace lyrics;
 
 errors::errors() {
 	status = OK;
-	this->initeMsg();
-	this->isMsgErr = false;
-}
-
-errors::errors( int init )  {
-	this->setStatus( init );
-	this->initeMsg();
-	this->isMsgErr = false;
+	this->errMsg 	= "Nothing happened this far.";
 }
 
 status_t errors::getStatus() {
@@ -43,44 +36,35 @@ status_t errors::getStatus() {
 }
 
 string errors::getErrMsg()  {
-	if(this->isMsgErr)
-		return this->errMsg;
-	else
-		return this->eMsg[this->status];
+	return this->errMsg;
 }
 
-void errors::setStatus( int error ) {
-	this->status = (status_t)error;
+void errors::setStatus( status_t estatus ) {
+	if( estatus == OK ) {
+		this->status = OK;
+		this->errMsg =  "All ok.";
+	} else {
+		this->status = estatus;
+		this->errMsg = "No error message specified.";
+	}
 }
 
-void errors::setStatus( int error, string errStr)
+void errors::setStatus( status_t error, string estatus )
 {
-	this->status = (status_t)error;
-	this->errMsg = errStr;
-	this->isMsgErr = true;
+	this->status = error;
+	this->errMsg = estatus;
 }
-
-// Pivate.
-
-void errors::initeMsg() {
-	eMsg[0]	= "All ok.";
-	eMsg[1] = "The lyric was not initialized.";
-	eMsg[2] = "No corrispondence in db.";
-	eMsg[3] = "Unknown db error.";
-	eMsg[4] = "No corrispondence in internet.";
-	eMsg[5] = "Unknown web error.";
-}
-
 
 // Lyric class implementation.
 
 lyric::lyric() {
 	this->setData( "", "", "" );
-	this->e.setStatus( NOT_INIT );
+	this->e.setStatus( NOT_INIT, "The lyric was not initalized" );
 }
 
 lyric::lyric( string title, string auth, string text ) {
 	this->setData( title, auth, text );
+	this->e.setStatus( OK );
 }
 
 string lyric::getTitle() {

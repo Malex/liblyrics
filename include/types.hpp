@@ -32,10 +32,8 @@ typedef unsigned int uint;
 enum status_t {
 	OK		= 0,
 	NOT_INIT	= 1,
-	DB_NO_ENTRY	= 2,
-	DB_OTHER	= 3,
-	WEB_NO_RES	= 4,
-	WEB_OTHER	= 5
+	DB_ERR		= 2,
+	CURL_ERR	= 3
 };
 
 class errors {
@@ -43,23 +41,17 @@ class errors {
 	public:
 
 	errors();
-	errors( int );
 
 	status_t getStatus();
 
 	std::string getErrMsg();
-	void setStatus( int );
-	void setStatus( int, std::string);
+	void setStatus( status_t);
+	void setStatus( status_t , std::string);
 
 	private:
 
-	void initeMsg();
-
 	status_t status;
-	std::string eMsg[6];
 	std::string errMsg;
-	// tilde: questo fa MOLTO schifo, me lo potevi dire xD
-	bool isMsgErr;
 };
 
 class lyric {

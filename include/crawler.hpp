@@ -43,13 +43,13 @@ class crawler {
 
 	public:
 
-	lyric getLyric(sitemode, std::string, std::string);
-
 	crawler();
 
 	~crawler() {
 		curl_easy_cleanup(this->curl);
 	}
+
+	lyric getLyric(sitemode, std::string, std::string);
 
 	std::string getCurlErrMessage();
 
@@ -61,19 +61,14 @@ class crawler {
 	curlErr e;
 	char* errMessage;
 
-	//Needed for cURL
-	static int curl_write(char*,size_t,size_t,std::string*);
-
-	// Questa funzione si occupa di prendere l'XML e di insegnare gli errori.
 	std::string getData(std::string);
-
-	// Questa funzione si occupa del parsing, compresa la trascrizione degli errori sull'oggetto 'e'
-	// della lyric che verrà restituita.
 	lyrics::lyric* getLyricFromXML(std::string);
 
-	static std::string atohex(std::string);
-	static std::string getTagContent(std::string,std::string*);
+	std::string atohex(std::string);
+	std::string getTagContent(std::string,std::string*);
 
+	// cURL utils.
+	int curl_write(char*,size_t,size_t,std::string*);
 };
 
 }  // namespace lyrics
