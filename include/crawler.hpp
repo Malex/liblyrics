@@ -68,7 +68,7 @@ class crawler {
 	std::string getTagContent(std::string,std::string*);
 
 	// cURL utils.
-	int curl_write(char*,size_t,size_t,std::string*);
+	static int curl_write(char*,size_t,size_t,std::string*);
 };
 
 }  // namespace lyrics
