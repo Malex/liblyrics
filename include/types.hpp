@@ -33,7 +33,7 @@ enum status_t {
 	OK		= 0,
 	NOT_INIT	= 1,
 	DB_ERR		= 2,
-	CURL_ERR	= 3
+	CRAW_ERR	= 3
 };
 
 class errors {
