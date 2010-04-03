@@ -43,8 +43,8 @@ class errors {
 	errors();
 
 	status_t getStatus();
-
 	std::string getErrMsg();
+
 	void setStatus( status_t);
 	void setStatus( status_t , std::string);
 

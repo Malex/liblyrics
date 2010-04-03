@@ -37,7 +37,7 @@ class dbinterface {
 	// dbinterface( config );
 	
 	lyric get( std::string title, std::string author);
-	void addEntry( lyric );
+	void addEntry( lyric* );
 	// per ora non serve altro.
 
 	private:

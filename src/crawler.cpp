@@ -130,11 +130,15 @@ string crawler::atohex(string str)
 	char tmp[2];
 
 	for(uint i=0;i<str.length();i++) {
-		if((char) str[i] < 65 || ((char) str[i] > 90 && (char) str[i] < 97) || (char) str[i] > 122) {
+		if((char) str[i] < 65 ||
+			((char) str[i] > 90 && (char) str[i] < 97) ||
+			(char) str[i] > 122) {
+
 			sprintf(tmp,"%x",(char) str[i]);
 			str.insert(i,"%"+(string) tmp);
 			str.erase(i+3,1);
 			i+=2;
+
 		}
 	}
 	return str;

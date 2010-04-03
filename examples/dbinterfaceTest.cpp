@@ -11,7 +11,12 @@ int main() {
 	lyric song( "fossi figo", "elio", "....." );
 	dbinterface db( "./examples/dbinterfaceTest.db" );
 
-	db.addEntry( song );
+	db.addEntry( &song );
+
+	if( song.e.getStatus() != OK ) {
+		cout<<song.e.getErrMsg()<<endl;
+		return -1;
+	}
 	
 	lyric ret = db.get( "fossi figo", "elio" );
 
