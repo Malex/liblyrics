@@ -1,2 +1,7 @@
 1- creare qualcosa che funzioni.
+2- cambiare la struttura del db (una table per ogni artista)
+3- il config.
+4- Implementare la ricerca per il dbinterface
+5- Implementare la ricerca per il crawler, tramite api chartlyrics
+6- dispatcher improvements.
 END
