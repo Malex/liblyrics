@@ -46,14 +46,26 @@ class crawler {
 	crawler();
 
 	~crawler() {
-		curl_easy_cleanup(this->curl);
+		curl_easy_cleanup( this->curl );
 	}
 
-	lyric getLyric(sitemode, std::string, std::string);
+	lyric getLyric( std::string, std::string );
 
 	std::string getCurlErrMessage() const;
+	void setmode( sitemode );
 
 	private:
+
+	sitemode mode;
+
+	std::string getData( std::string );
+	lyrics::lyric* getLyricFromXML( std::string );
+
+	std::string atohex(std::string) const;
+	std::string getTagContent( std::string,std::string* ) const;
+
+	// cURL utils.
+	static int curl_write( char*,size_t,size_t,std::string* );
 
 	CURL* curl;
 	CURLcode res;
@@ -61,14 +73,6 @@ class crawler {
 	curlErr e;
 	char* errMessage;
 
-	std::string getData(std::string);
-	lyrics::lyric* getLyricFromXML(std::string);
-
-	std::string atohex(std::string) const;
-	std::string getTagContent(std::string,std::string*) const;
-
-	// cURL utils.
-	static int curl_write(char*,size_t,size_t,std::string*);
 };
 
 }  // namespace lyrics

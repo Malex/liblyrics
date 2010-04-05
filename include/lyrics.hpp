@@ -38,12 +38,14 @@ class dispatcher {
 	~dispatcher();
 
 	lyric getLyric(std::string,std::string) const;
-	lyric getLyric(std::string,std::string,sitemode) const;
 
 	std::string getStatus() const;
 
 	private:
 
+	lyric getLyric(std::string,std::string,sitemode) const;
+
+	// Queste a che servono?
 	std::string status;
 	void setStatus(std::string);
 
@@ -55,4 +57,5 @@ class dispatcher {
 };
 
 } // namespace lyrics
+
 #endif //LYRICS_LYRICS_HPP

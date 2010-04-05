@@ -25,25 +25,25 @@ using namespace std;
 using namespace lyrics;
 
 
-crawler::crawler()
-{
+crawler::crawler() {
 	this->curl = curl_easy_init();
 
 	curl_easy_setopt( this->curl, CURLOPT_HEADER, 0 );
 	curl_easy_setopt( this->curl, CURLOPT_WRITEFUNCTION, crawler::curl_write );
 	curl_easy_setopt( this->curl, CURLOPT_ERRORBUFFER, this->errMessage );
+	
+	this->setmode( ChartLyrics );
 }
 
-lyric crawler::getLyric(sitemode site, string title, string auth)
-{
+lyric crawler::getLyric( string title, string auth ) {
 	string path;
 	string lyr;
 	lyric* ret;
 
-	auth = crawler::atohex(auth);
-	title = crawler::atohex(title);
+	auth = crawler::atohex( auth );
+	title = crawler::atohex( title );
 
-	switch(site) {
+	switch( this->mode ) {
 		case ChartLyrics:
 			path = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist="+auth+"&song="+title;
 			break;
@@ -53,71 +53,71 @@ lyric crawler::getLyric(sitemode site, string title, string auth)
 	}
 
 
-	if(this->e != NotSuchSite) {
-		lyr = this->getData(path);
+	if( this->e != NotSuchSite ) {
+		lyr = this->getData( path );
 	} else {
 		ret->e.setStatus( CRAW_ERR ,"Not supported sitemode");
 	}
 
-	if(this->e == ConnectionErr) {
+	if( this->e == ConnectionErr ) {
 		ret->e.setStatus( CRAW_ERR ,this->getCurlErrMessage());
 	} else {
-		ret = this->getLyricFromXML(lyr);
+		ret = this->getLyricFromXML( lyr );
 	}
 
 	if(this->e == ParsingErr) {
-		ret->e.setStatus( CRAW_ERR ,"Not valid XML file");
+		ret->e.setStatus( CRAW_ERR ,"Not valid XML file" );
 	}
 
 	return *ret;
 }
 
-string crawler::getCurlErrMessage() const
-{
-	if(this->e == ConnectionErr) {
-		return (string) this->errMessage;
+void crawler::setmode( sitemode m ) {
+	this->mode = m;
+}
+
+string crawler::getCurlErrMessage() const {
+	if( this->e == ConnectionErr ) {
+		return (string)this->errMessage;
 	} else {
 		return "No cURL Error";
 	}
 }
 
-string crawler::getData(string path)
-{
+string crawler::getData( string path ) {
 	string ret;
 
 	curl_easy_setopt( this->curl, CURLOPT_URL, path.c_str() );
 	curl_easy_setopt( this->curl, CURLOPT_WRITEDATA, &ret );
 
-	this->res = curl_easy_perform(this->curl);
+	this->res = curl_easy_perform( this->curl );
 
-	if(this->res!=0) {
+	if( this->res!=0 ) {
 		this->e = ConnectionErr;
 	}
 	return ret;
 }
 
-lyric* crawler::getLyricFromXML(string data)
-{
+lyric* crawler::getLyricFromXML( string data ) {
 	lyric* ret;
 	string auth, title, text;
 
-	title = crawler::getTagContent("<LyricSong>",&data);
-	auth = crawler::getTagContent("<LyricArtist>",&data);
-	text = crawler::getTagContent("<Lyric>",&data);
+	title = crawler::getTagContent( "<LyricSong>",&data );
+	auth = crawler::getTagContent( "<LyricArtist>",&data );
+	text = crawler::getTagContent( "<Lyric>",&data );
 
-	if(text == "" || title == "" || auth == "") {
+	if( text == "" || title == "" || auth == "" ) {
 		this->e = ParsingErr;
 		ret = new lyric();
 		ret->e.setStatus( CRAW_ERR );
 	} else {
-		ret = new lyric(title,auth,text);
+		ret = new lyric( title,auth,text );
 	}
 
 	return ret;
 }
 
-string crawler::atohex(string str) const
-{
+string crawler::atohex( string str ) const {
 	char tmp[2];
 
 	for(uint i=0;i<str.length();i++) {
@@ -125,9 +125,9 @@ string crawler::atohex(string str) const
 			((char) str[i] > 90 && (char) str[i] < 97) ||
 			(char) str[i] > 122) {
 
-			sprintf(tmp,"%x",(char) str[i]);
-			str.insert(i,"%"+(string) tmp);
-			str.erase(i+3,1);
+			sprintf( tmp,"%x",(char) str[i] );
+			str.insert( i,"%"+(string) tmp );
+			str.erase( i+3,1 );
 			i+=2;
 
 		}
@@ -135,17 +135,16 @@ string crawler::atohex(string str) const
 	return str;
 }
 
-string crawler::getTagContent(string tag, string* data) const
-{
+string crawler::getTagContent( string tag, string* data ) const {
 	string ret;
 	size_t p[2];
 
-	p[0] = data->find(tag);
+	p[0] = data->find( tag );
 	tag.insert(1,"/");
-	p[1] = data->find(tag);
+	p[1] = data->find( tag );
 
-	if(p[0] != string::npos) {
-		ret = data->substr(p[0]+(tag.length())+1,p[1]-(p[0]+(tag.length())+1));
+	if( p[0] != string::npos ) {
+		ret = data->substr( p[0]+(tag.length())+1,p[1]-(p[0]+(tag.length())+1) );
 	} else {
 		ret = "";
 	}
@@ -153,12 +152,11 @@ string crawler::getTagContent(string tag, string* data) const
 	return ret;
 }
 
-int crawler::curl_write(char* data,size_t size,size_t nsize,string* buffer)
-{
+int crawler::curl_write( char* data,size_t size,size_t nsize,string* buffer ) {
 	int ret = 0;
-	if(buffer!=NULL) {
+	if( buffer!=NULL ) {
 		ret = size*nsize;
-		buffer->append(data,ret);
+		buffer->append( data,ret );
 	}
 	return ret;
 }

@@ -24,49 +24,44 @@
 using namespace std;
 using namespace lyrics;
 
-dispatcher::dispatcher()
-{
-	this->db = new dbinterface("data.db");
-	this->craw = new crawler();
+dispatcher::dispatcher() {
+	this->ret	= new lyric();
+	this->db	= new dbinterface("data.db");
+	this->craw	= new crawler();
 }
 
-dispatcher::dispatcher(string dbPath)
-{
+dispatcher::dispatcher( string dbPath ) {
 	this->db = new dbinterface(dbPath);
 	this->craw = new crawler();
 }
 
-dispatcher::~dispatcher()
-{
+dispatcher::~dispatcher() {
 	delete this->db;
 	delete this->craw;
 }
 
-lyric dispatcher::getLyric(string title,string auth) const
-{
+lyric dispatcher::getLyric( string title,string auth ) const {
 	return this->getLyric(title,auth,ChartLyrics);
 }
 
-lyric dispatcher::getLyric(string title,string auth,sitemode site) const 
-{
+lyric dispatcher::getLyric( string title,string auth ) const {
+	
 	lyric ret;
 
-	ret = this->db->get(title,auth);
+	ret = this->db->get( title,auth );
 
-	if(ret.e.getStatus()!= OK) {
-		ret = this->craw->getLyric(site,title,auth);
-		this->db->addEntry(&ret);
+	if( ret.e.getStatus()!= OK ) {
+		ret = this->craw->getLyric( title,auth );
+		this->db->addEntry( &ret );
 	}
 
 	return ret;
 }
 
-string dispatcher::getStatus() const
-{
+string dispatcher::getStatus() const {
 	return this->status;
 }
 
-void dispatcher::setStatus(string new_status)
-{
+void dispatcher::setStatus( string new_status ) {
 	this->status = new_status;
 }

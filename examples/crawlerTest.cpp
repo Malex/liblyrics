@@ -7,7 +7,7 @@ using namespace lyrics;
 int main()
 {
 	crawler* test = new crawler();
-	lyric lyr = test->getLyric(ChartLyrics,"Give it to me","Madonna");
+	lyric lyr = test->getLyric( "Give it to me","Madonna");
 	cout << test->getCurlErrMessage() << endl;
 	cout << lyr.getTitle() << endl << lyr.getAuth() << endl << lyr.getText() << endl;
 	cout << lyr.e.getErrMsg() << endl;
