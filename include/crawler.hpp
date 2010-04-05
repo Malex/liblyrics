@@ -51,7 +51,7 @@ class crawler {
 
 	lyric getLyric(sitemode, std::string, std::string);
 
-	std::string getCurlErrMessage();
+	std::string getCurlErrMessage() const;
 
 	private:
 
@@ -64,8 +64,8 @@ class crawler {
 	std::string getData(std::string);
 	lyrics::lyric* getLyricFromXML(std::string);
 
-	std::string atohex(std::string);
-	std::string getTagContent(std::string,std::string*);
+	std::string atohex(std::string) const;
+	std::string getTagContent(std::string,std::string*) const;
 
 	// cURL utils.
 	static int curl_write(char*,size_t,size_t,std::string*);

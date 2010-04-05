@@ -42,8 +42,8 @@ class errors {
 
 	errors();
 
-	status_t getStatus();
-	std::string getErrMsg();
+	status_t getStatus() const;
+	std::string getErrMsg() const;
 
 	void setStatus( status_t);
 	void setStatus( status_t , std::string);
@@ -61,9 +61,9 @@ class lyric {
 	lyric();
 	lyric( std::string, std::string , std::string ) ;
 
-	std::string getTitle();
-	std::string getAuth();
-	std::string getText();
+	std::string getTitle() const;
+	std::string getAuth() const;
+	std::string getText() const;
 	void setData( std::string, std::string, std::string );
 
 	errors e;

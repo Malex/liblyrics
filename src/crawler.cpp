@@ -72,7 +72,7 @@ lyric crawler::getLyric(sitemode site, string title, string auth)
 	return *ret;
 }
 
-string crawler::getCurlErrMessage()
+string crawler::getCurlErrMessage() const
 {
 	if(this->e == ConnectionErr) {
 		return (string) this->errMessage;
@@ -88,14 +88,6 @@ string crawler::getData(string path)
 	curl_easy_setopt( this->curl, CURLOPT_URL, path.c_str() );
 	curl_easy_setopt( this->curl, CURLOPT_WRITEDATA, &ret );
 
-
-
-/* TODO: Questa funzione ↓ causa segfault. 
- * A volte ritorna questo errore:
- * terminate called after throwing an instance of 'std::length_error' 
- *   what():  basic_string::append  
- *   Aborted
- */
 	this->res = curl_easy_perform(this->curl);
 
 	if(this->res!=0) {
@@ -124,7 +116,7 @@ lyric* crawler::getLyricFromXML(string data)
 	return ret;
 }
 
-string crawler::atohex(string str)
+string crawler::atohex(string str) const
 {
 	char tmp[2];
 
@@ -143,7 +135,7 @@ string crawler::atohex(string str)
 	return str;
 }
 
-string crawler::getTagContent(string tag, string* data)
+string crawler::getTagContent(string tag, string* data) const
 {
 	string ret;
 	size_t p[2];

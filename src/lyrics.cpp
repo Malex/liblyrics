@@ -42,12 +42,12 @@ dispatcher::~dispatcher()
 	delete this->craw;
 }
 
-lyric dispatcher::getLyric(string title,string auth)
+lyric dispatcher::getLyric(string title,string auth) const
 {
 	return this->getLyric(title,auth,ChartLyrics);
 }
 
-lyric dispatcher::getLyric(string title,string auth,sitemode site)
+lyric dispatcher::getLyric(string title,string auth,sitemode site) const 
 {
 	lyric ret;
 
@@ -61,7 +61,7 @@ lyric dispatcher::getLyric(string title,string auth,sitemode site)
 	return ret;
 }
 
-string dispatcher::getStatus()
+string dispatcher::getStatus() const
 {
 	return this->status;
 }

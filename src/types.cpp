@@ -31,11 +31,11 @@ errors::errors() {
 	this->errMsg 	= "Nothing happened this far.";
 }
 
-status_t errors::getStatus() {
+status_t errors::getStatus() const {
 	return this->status;
 }
 
-string errors::getErrMsg()  {
+string errors::getErrMsg() const {
 	return this->errMsg;
 }
 
@@ -67,15 +67,15 @@ lyric::lyric( string title, string auth, string text ) {
 	this->e.setStatus( OK );
 }
 
-string lyric::getTitle() {
+string lyric::getTitle() const {
 	return this->title;
 }
 
-string lyric::getAuth() {
+string lyric::getAuth() const {
 	return this->author;
 }
 
-string lyric::getText() {
+string lyric::getText() const {
 	return this->text;
 }
 

@@ -37,18 +37,18 @@ class dispatcher {
 
 	~dispatcher();
 
-	lyric getLyric(std::string,std::string);
-	lyric getLyric(std::string,std::string,sitemode);
+	lyric getLyric(std::string,std::string) const;
+	lyric getLyric(std::string,std::string,sitemode) const;
 
-	std::string getStatus();
+	std::string getStatus() const;
 
 	private:
 
 	std::string status;
 	void setStatus(std::string);
 
-	lyric getFromCrawler(sitemode,std::string,std::string);
-	lyric getFromDB(std::string,std::string);
+	lyric getFromCrawler(sitemode,std::string,std::string) const;
+	lyric getFromDB(std::string,std::string) const;
 
 	dbinterface* db;
 	crawler* craw;
