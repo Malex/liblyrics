@@ -6,11 +6,9 @@ DIR	= src
 BIN	= bin
 EXMPL	= examples
 
-all : types crawler dbinterface
-#lyrics
+all : types crawler dbinterface dispatcher
 
-examples : typesTest crawlerTest dbinterfaceTest
-#lyricsTest
+examples : typesTest crawlerTest dbinterfaceTest dispatcherTest
 
 clean :
 	rm -rf $(BIN)/* $(EXMPL)/*.example $(EXMPL)/*.db
@@ -25,8 +23,8 @@ crawler : types $(INCL)/crawler.hpp $(DIR)/crawler.cpp
 dbinterface : types $(INCL)/dbinterface.hpp $(DIR)/dbinterface.cpp
 	$(CC) -c $(CFLAGS) $(DIR)/dbinterface.cpp -o $(BIN)/dbinterface.o
 
-lyrics : types crawler dbinterface $(INCL)/lyrics.hpp $(DIR)/lyrics.cpp
-	$(CC) -c $(CFLAGS) $(DIR)/lyrics.cpp -o $(BIN)/lyrics.o 
+dispatcher : types crawler dbinterface $(INCL)/dispatcher.hpp $(DIR)/dispatcher.cpp
+	$(CC) -c $(CFLAGS) $(DIR)/dispatcher.cpp -o $(BIN)/dispatcher.o 
 
 typesTest : types $(EXMPL)/typesTest.cpp
 	$(CC) $(CFLAGS) $(EXMPL)/typesTest.cpp -o $(EXMPL)/typesTest.example  $(BIN)/types.o
@@ -37,6 +35,6 @@ crawlerTest : crawler $(EXMPL)/crawlerTest.cpp
 dbinterfaceTest : dbinterface $(EXMPL)/dbinterfaceTest.cpp
 	$(CC) $(CFLAGS) $(EXMPL)/dbinterfaceTest.cpp -o $(EXMPL)/dbinterfaceTest.example $(BIN)/dbinterface.o $(BIN)/types.o -l sqlite3
 
-lyricTest : lyrics $(EXMPL)/lyricsTest.cpp
-	$(CC) $(CFLAGS) $(EXMPL)/lyricsTest.cpp -o $(EXMPL)/lyricsTest.example $(BIN)/lyrics.o $(BIN)/types.o $(BIN)/dbinterface.o $(BIN)/crawler.o -l curl -l sqlite3
+dispatcherTest : dispatcher $(EXMPL)/dispatcherTest.cpp
+	$(CC) $(CFLAGS) $(EXMPL)/dispatcherTest.cpp -o $(EXMPL)/dispatcherTest.example $(BIN)/dispatcher.o $(BIN)/types.o $(BIN)/dbinterface.o $(BIN)/crawler.o -l curl -l sqlite3
 
