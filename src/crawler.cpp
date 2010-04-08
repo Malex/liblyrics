@@ -31,14 +31,14 @@ crawler::crawler() {
 	curl_easy_setopt( this->curl, CURLOPT_HEADER, 0 );
 	curl_easy_setopt( this->curl, CURLOPT_WRITEFUNCTION, crawler::curl_write );
 	curl_easy_setopt( this->curl, CURLOPT_ERRORBUFFER, this->errMessage );
-	
+
 	this->setmode( ChartLyrics );
 }
 
-lyric crawler::getLyric( string title, string auth ) {
+lyric& crawler::getLyric( string title, string auth ) {
 	string path;
 	string lyr;
-	lyric* ret;
+	lyric ret;
 
 	auth = crawler::atohex( auth );
 	title = crawler::atohex( title );
@@ -48,28 +48,28 @@ lyric crawler::getLyric( string title, string auth ) {
 			path = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist="+auth+"&song="+title;
 			break;
 		default:
-			this->e = NotSuchSite;
+			ret.setStatus( CRAW_ERR, "Not Such Site" );
 			break;
 	}
 
 
-	if( this->e != NotSuchSite ) {
+	if( ret.getStatus() != CRAW_ERR ) {
 		lyr = this->getData( path );
 	} else {
-		ret->setStatus( CRAW_ERR ,"Not supported sitemode");
+		ret.setStatus( CRAW_ERR ,"Not supported sitemode");
 	}
 
-	if( this->e == ConnectionErr ) {
-		ret->setStatus( CRAW_ERR ,this->getCurlErrMessage());
+	if( this->res != 0 ) {
+		ret.setStatus( CRAW_ERR ,this->getCurlErrMessage());
 	} else {
 		ret = this->getLyricFromXML( lyr );
 	}
 
-	if(this->e == ParsingErr) {
-		ret->setStatus( CRAW_ERR ,"Not valid XML file" );
+	if( ret.getStatus() == CRAW_ERR && ret.getErrMsg() == "No error message specified.") {
+		ret.setStatus( CRAW_ERR ,"Not valid XML file" );
 	}
 
-	return *ret;
+	return ret;
 }
 
 void crawler::setmode( sitemode m ) {
@@ -77,14 +77,14 @@ void crawler::setmode( sitemode m ) {
 }
 
 string crawler::getCurlErrMessage() const {
-	if( this->e == ConnectionErr ) {
-		return (string)this->errMessage;
+	if( this->errMessage != NULL ) {
+		return (string) this->errMessage;
 	} else {
 		return "No cURL Error";
 	}
 }
 
-string crawler::getData( string path ) {
+string& crawler::getData( string& path ) {
 	string ret;
 
 	curl_easy_setopt( this->curl, CURLOPT_URL, path.c_str() );
@@ -92,32 +92,28 @@ string crawler::getData( string path ) {
 
 	this->res = curl_easy_perform( this->curl );
 
-	if( this->res!=0 ) {
-		this->e = ConnectionErr;
-	}
 	return ret;
 }
 
-lyric* crawler::getLyricFromXML( string data ) {
+lyric& crawler::getLyricFromXML( string& data ) {
 	lyric* ret;
 	string auth, title, text;
 
-	title = crawler::getTagContent( "<LyricSong>",&data );
-	auth = crawler::getTagContent( "<LyricArtist>",&data );
-	text = crawler::getTagContent( "<Lyric>",&data );
+	title = crawler::getTagContent( "<LyricSong>",data );
+	auth = crawler::getTagContent( "<LyricArtist>",data );
+	text = crawler::getTagContent( "<Lyric>",data );
 
 	if( text == "" || title == "" || auth == "" ) {
-		this->e = ParsingErr;
 		ret = new lyric();
 		ret->setStatus( CRAW_ERR );
 	} else {
 		ret = new lyric( title,auth,text );
 	}
 
-	return ret;
+	return *ret;
 }
 
-string crawler::atohex( string str ) const {
+string& crawler::atohex( string& str ) const {
 	char tmp[2];
 
 	for(uint i=0;i<str.length();i++) {
@@ -135,16 +131,16 @@ string crawler::atohex( string str ) const {
 	return str;
 }
 
-string crawler::getTagContent( string tag, string* data ) const {
+string& crawler::getTagContent( string tag, string& data ) const {
 	string ret;
 	size_t p[2];
 
-	p[0] = data->find( tag );
+	p[0] = data.find( tag );
 	tag.insert(1,"/");
-	p[1] = data->find( tag );
+	p[1] = data.find( tag );
 
 	if( p[0] != string::npos ) {
-		ret = data->substr( p[0]+(tag.length())+1,p[1]-(p[0]+(tag.length())+1) );
+		ret = data.substr( p[0]+(tag.length())+1,p[1]-(p[0]+(tag.length())+1) );
 	} else {
 		ret = "";
 	}
@@ -152,11 +148,11 @@ string crawler::getTagContent( string tag, string* data ) const {
 	return ret;
 }
 
-int crawler::curl_write( char* data,size_t size,size_t nsize,string* buffer ) {
+int crawler::curl_write( char* data,size_t size,size_t nsize,string& buffer ) {
 	int ret = 0;
-	if( buffer!=NULL ) {
+	if( &buffer !=NULL ) {
 		ret = size*nsize;
-		buffer->append( data,ret );
+		buffer.append( data,ret );
 	}
 	return ret;
 }

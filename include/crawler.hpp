@@ -32,13 +32,6 @@ enum sitemode {
 	ChartLyrics = 0
 };
 
-enum curlErr {
-	NoErr = 0,
-	ConnectionErr = 1,
-	NotSuchSite = 2,
-	ParsingErr = 3
-};
-
 class crawler {
 
 	public:
@@ -49,7 +42,7 @@ class crawler {
 		curl_easy_cleanup( this->curl );
 	}
 
-	lyric getLyric( std::string, std::string );
+	lyric& getLyric( std::string, std::string );
 
 	std::string getCurlErrMessage() const;
 	void setmode( sitemode );
@@ -58,19 +51,18 @@ class crawler {
 
 	sitemode mode;
 
-	std::string getData( std::string );
-	lyric* getLyricFromXML( std::string );
+	std::string& getData( std::string& );
+	lyric& getLyricFromXML( std::string& );
 
-	std::string atohex(std::string) const;
-	std::string getTagContent( std::string,std::string* ) const;
+	std::string& atohex(std::string&) const;
+	std::string& getTagContent( std::string,std::string& ) const;
 
 	// cURL utils.
-	static int curl_write( char*,size_t,size_t,std::string* );
+	static int curl_write( char*,size_t,size_t,std::string& );
 
 	CURL* curl;
 	CURLcode res;
 
-	curlErr e;
 	char* errMessage;
 
 };
