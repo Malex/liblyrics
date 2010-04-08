@@ -54,7 +54,7 @@ class errors {
 	std::string errMsg;
 };
 
-class lyric {
+class lyric : public errors {
 
 	public:
 
@@ -65,8 +65,6 @@ class lyric {
 	std::string getAuth() const;
 	std::string getText() const;
 	void setData( std::string, std::string, std::string );
-
-	errors e;
 
 	private:
 

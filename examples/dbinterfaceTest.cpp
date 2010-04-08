@@ -9,16 +9,17 @@ using namespace lyrics;
 int main() {
 
 	lyric song( "fossi figo", "elio", "....." );
+	lyric ret;
 	dbinterface db( "./examples/dbinterfaceTest.db" );
 
-	db.addEntry( &song );
+	db.addEntry( song );
 
-	if( song.e.getStatus() != OK ) {
-		cout<<song.e.getErrMsg()<<endl;
+	if( song.getStatus() != OK ) {
+		cout<<song.getErrMsg()<<endl;
 		return -1;
 	}
 	
-	lyric ret = db.get( "fossi figo", "elio" );
+	db.get( "fossi figo", "elio", ret );
 
 	cout<<"Autore"<<setw(10)<<"Titolo"<<endl;
 	cout<<ret.getAuth()<<setw(16)<<ret.getTitle()<<endl;

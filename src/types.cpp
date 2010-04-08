@@ -40,11 +40,10 @@ string errors::getErrMsg() const {
 }
 
 void errors::setStatus( status_t estatus ) {
+	this->status = estatus;
 	if( estatus == OK ) {
-		this->status = OK;
 		this->errMsg =  "All ok.";
 	} else {
-		this->status = estatus;
 		this->errMsg = "No error message specified.";
 	}
 }
@@ -59,12 +58,12 @@ void errors::setStatus( status_t error, string estatus )
 
 lyric::lyric() {
 	this->setData( "", "", "" );
-	this->e.setStatus( NOT_INIT, "The lyric was not initalized" );
+	this->setStatus( NOT_INIT, "Empty lyric." );
 }
 
 lyric::lyric( string title, string auth, string text ) {
 	this->setData( title, auth, text );
-	this->e.setStatus( OK );
+	this->setStatus( OK );
 }
 
 string lyric::getTitle() const {
@@ -83,6 +82,6 @@ void lyric::setData( string title, string auth, string text ) {
 	this->title	= title;
 	this->author	= auth;
 	this->text	= text;
-	this->e.setStatus( OK );
+	this->setStatus( OK );
 }
 

@@ -32,7 +32,7 @@ dbinterface::dbinterface( string dbPath ) {
 	
 }
 
-lyric dbinterface::get( string title, string author ) {
+lyric& dbinterface::get( string title, string author, lyric& outLyric ) {
 
 	string QGetEntry = "select distinct * from lyrics where \
 			title='"+title+"'and author='"+author+"'";
@@ -43,8 +43,8 @@ lyric dbinterface::get( string title, string author ) {
 	this->retval = sqlite3_prepare_v2( dbHandle, QGetEntry.c_str(),
 				-1, &stmt, NULL );	
 	if( this->retval != 0 ) {
-		this->outLyric.e.setStatus( DB_ERR, (string)sqlite3_errmsg( dbHandle ) ); 
-		return this->outLyric;
+		outLyric.setStatus( DB_ERR, (string)sqlite3_errmsg( dbHandle ) ); 
+		return outLyric;
 	}
 	
 	while( sqlite3_step(stmt) == SQLITE_ROW ) { 
@@ -63,33 +63,34 @@ lyric dbinterface::get( string title, string author ) {
 				ltext = (const char*)sqlite3_column_text(stmt,i);
 	
 			} else {
-				this->outLyric.e.setStatus( DB_ERR, "Fatal unknown error." );
-				return this->outLyric;
+				outLyric.setStatus( DB_ERR, "Db Fatal error." );
+				return outLyric;
 			}
 				
 		}
 	}
-	this->outLyric.setData( ltitle, lauth, ltext ); 
-	this->outLyric.e.setStatus( OK );
-	return this->outLyric;
+	
+	outLyric.setData( ltitle, lauth, ltext );
+	outLyric.setStatus( OK );
+	return outLyric;
 
 }
 
-void dbinterface::addEntry( lyric* in ) {
+void dbinterface::addEntry( lyric& in ) {
 
-	if( in->e.getStatus() != OK ) {
+	if( in.getStatus() != OK ) {
 		return;
 	}
 
 	string QAddEntry = "insert into lyrics(title, author, text) \
-			values('"+in->getTitle()+"','"+in->getAuth()+"','"+in->getText()+"')";
+			values('"+in.getTitle()+"','"+in.getAuth()+"','"+in.getText()+"')";
 	this->retval = sqlite3_prepare_v2( dbHandle, QAddEntry.c_str(), 
 				-1, &stmt, NULL );
 	if( this->retval != 0 ) {
-		in->e.setStatus( DB_ERR, (string)sqlite3_errmsg( dbHandle ) ); 
+		in.setStatus( DB_ERR, (string)sqlite3_errmsg( dbHandle ) ); 
 	}
 	
-	this->retval = sqlite3_step( stmt );
+	sqlite3_step( stmt );
 
 }
 

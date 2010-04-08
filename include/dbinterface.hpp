@@ -32,12 +32,12 @@ class dbinterface {
 
 	public:
 	
-	dbinterface( std::string dbPath );
+	dbinterface(  std::string dbPath );
 	// questo ↑ è provvisorio, alla fine sarà
 	// dbinterface( config );
 	
-	lyric get( std::string title, std::string author);
-	void addEntry( lyric* );
+	lyric& get( std::string title, std::string author, lyric&);
+	void addEntry( lyric& );
 	// per ora non serve altro.
 
 	private:
@@ -48,8 +48,6 @@ class dbinterface {
 	sqlite3*	dbHandle;
 	sqlite3_stmt*	stmt;
 	uint 		retval;
-	
-	lyric outLyric;
 
 };
 

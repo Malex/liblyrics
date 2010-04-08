@@ -7,6 +7,11 @@ using namespace std;
 
 int main( int argc, char* argv[]) {
 	dispatcher omg;
-	cout<<omg.get( (string)argv[1], (string)argv[2] )<<endl;
+	string text;
+	if( !omg.get( "michael jackson", "beat it", text ) )
+		cout<<text<<endl;
+	else
+		cout<<"Here's the err message:"<<endl<<text<<endl;
+
 	return 0;
 }

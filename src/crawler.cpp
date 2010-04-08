@@ -56,17 +56,17 @@ lyric crawler::getLyric( string title, string auth ) {
 	if( this->e != NotSuchSite ) {
 		lyr = this->getData( path );
 	} else {
-		ret->e.setStatus( CRAW_ERR ,"Not supported sitemode");
+		ret->setStatus( CRAW_ERR ,"Not supported sitemode");
 	}
 
 	if( this->e == ConnectionErr ) {
-		ret->e.setStatus( CRAW_ERR ,this->getCurlErrMessage());
+		ret->setStatus( CRAW_ERR ,this->getCurlErrMessage());
 	} else {
 		ret = this->getLyricFromXML( lyr );
 	}
 
 	if(this->e == ParsingErr) {
-		ret->e.setStatus( CRAW_ERR ,"Not valid XML file" );
+		ret->setStatus( CRAW_ERR ,"Not valid XML file" );
 	}
 
 	return *ret;
@@ -109,7 +109,7 @@ lyric* crawler::getLyricFromXML( string data ) {
 	if( text == "" || title == "" || auth == "" ) {
 		this->e = ParsingErr;
 		ret = new lyric();
-		ret->e.setStatus( CRAW_ERR );
+		ret->setStatus( CRAW_ERR );
 	} else {
 		ret = new lyric( title,auth,text );
 	}

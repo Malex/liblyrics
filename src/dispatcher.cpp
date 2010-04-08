@@ -39,9 +39,18 @@ dispatcher::~dispatcher() {
 	delete this->craw;
 }
 
-string dispatcher::get( string title, string auth ) const {
+int dispatcher::get( string title, string auth, string& text ) const {
+
+	lyric tmp = getLyric( title, auth );
 	
-	return this->getLyric( title, auth ).getText();
+	if( tmp.e.getStatus() == OK ) {
+		text = tmp.getText();
+		return LYRIC_OK;
+	} else {
+		text = "Some errors.";
+		return LYRIC_DB_ERR;
+	}
+
 
 }
 

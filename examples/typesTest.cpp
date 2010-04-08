@@ -11,14 +11,14 @@ int main() {
 
 	cout<<endl<<endl;
 
-	cout<<"Status: "<<foo.e.getErrMsg()<<endl;
+	cout<<"Status: "<<foo.getErrMsg()<<endl;
 
 	cout<<">> object initialize now."<<endl;
 	foo.setData( "oh my gosh", "tilde", "FUCK YEA SEAKING" );
 
 	cout<<foo.getTitle()<<'\t'<<foo.getAuth()<<'\t'<<foo.getText()<<endl;
 
-	cout<<"Status: "<<foo.e.getErrMsg()<<endl;
+	cout<<"Status: "<<foo.getErrMsg()<<endl;
 	cout<<endl<<endl;
 
 	return 0;

@@ -26,6 +26,14 @@
 #include "crawler.hpp"
 #include "dbinterface.hpp"
 
+
+// Error codes
+#define LYRIC_OK 	0
+#define LYRIC_DB_NO_RES	10
+#define LYRIC_CR_NO_RES	20
+#define LYRIC_DB_ERR	11
+#define LYRIC_CR_ERR	21
+
 namespace lyrics {
 
 class dispatcher {
@@ -37,21 +45,24 @@ class dispatcher {
 
 	~dispatcher();
 
-	std::string get( std::string, std::string) const;
-	lyric getLyric(std::string,std::string) const;
+	int get( const std::string, const std::string, 
+		std::string& // OUT
+		) const;
+
+	lyric getLyric( std::string, std::string ) const;
 
 	std::string getStatus() const;
 
 	private:
 
-	lyric getLyric(std::string,std::string,sitemode) const;
+	lyric getLyric( std::string, std::string, sitemode ) const;
 
 	// Queste a che servono?
 	std::string status;
-	void setStatus(std::string);
+	void setStatus( std::string );
 
-	lyric getFromCrawler(sitemode,std::string,std::string) const;
-	lyric getFromDB(std::string,std::string) const;
+	lyric getFromCrawler( sitemode, std::string, std::string ) const;
+	lyric getFromDB( std::string, std::string ) const;
 
 	dbinterface* db;
 	crawler* craw;
