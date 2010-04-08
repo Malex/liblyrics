@@ -22,7 +22,7 @@
 #include "dispatcher.hpp"
 
 using namespace std;
-using namespace lyrics;
+using namespace liblyrics;
 
 dispatcher::dispatcher() {
 	this->db	= new dbinterface("data.db");

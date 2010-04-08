@@ -24,7 +24,7 @@
 #include "types.hpp"
 
 using namespace std;
-using namespace lyrics;
+using namespace liblyrics;
 
 dbinterface::dbinterface( string dbPath ) {
 

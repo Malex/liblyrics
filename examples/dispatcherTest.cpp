@@ -2,7 +2,7 @@
 #include <string>
 #include "dispatcher.hpp"
 
-using namespace lyrics;
+using namespace liblyrics;
 using namespace std;
 
 int main( int argc, char* argv[]) {

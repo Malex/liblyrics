@@ -25,7 +25,7 @@
 #include <string>
 
 
-namespace lyrics {
+namespace liblyrics {
 
 typedef unsigned int uint;
 
@@ -75,6 +75,6 @@ class lyric : public errors {
 };
 
 
-} // namespace lyrics
+} // namespace liblyrics
 
 #endif // TYPES_HPP

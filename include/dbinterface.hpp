@@ -26,7 +26,7 @@
 #include <sqlite3.h>
 #include "types.hpp"
 
-namespace lyrics{
+namespace liblyrics{
 
 class dbinterface {
 
@@ -51,6 +51,6 @@ class dbinterface {
 
 };
 
-} // namespace lyrics
+} // namespace liblyrics
 
 #endif // LYRICS_DBINTERFACE_HPP

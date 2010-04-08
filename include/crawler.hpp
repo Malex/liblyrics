@@ -26,7 +26,7 @@
 #include <curl/curl.h>
 #include "types.hpp"
 
-namespace lyrics {
+namespace liblyrics {
 
 enum sitemode {
 	ChartLyrics = 0
@@ -59,7 +59,7 @@ class crawler {
 	sitemode mode;
 
 	std::string getData( std::string );
-	lyrics::lyric* getLyricFromXML( std::string );
+	lyric* getLyricFromXML( std::string );
 
 	std::string atohex(std::string) const;
 	std::string getTagContent( std::string,std::string* ) const;
@@ -75,6 +75,6 @@ class crawler {
 
 };
 
-}  // namespace lyrics
+}  // namespace liblyrics
 
 #endif // LYRICS_CRAWLER_HPP

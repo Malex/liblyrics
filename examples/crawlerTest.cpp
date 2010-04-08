@@ -2,7 +2,7 @@
 #include "crawler.hpp"
 
 using namespace std;
-using namespace lyrics;
+using namespace liblyrics;
 
 int main()
 {

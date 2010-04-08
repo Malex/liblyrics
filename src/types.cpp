@@ -22,7 +22,7 @@
 #include "types.hpp"
 
 using namespace std;
-using namespace lyrics;
+using namespace liblyrics;
 
 // Errors class implementation.
 

@@ -34,7 +34,7 @@
 #define LYRIC_DB_ERR	11
 #define LYRIC_CR_ERR	21
 
-namespace lyrics {
+namespace liblyrics {
 
 class dispatcher {
 
@@ -68,6 +68,6 @@ class dispatcher {
 	crawler* craw;
 };
 
-} // namespace lyrics
+} // namespace liblyrics
 
 #endif //LYRICS_LYRICS_HPP
