@@ -35,10 +35,10 @@ crawler::crawler() {
 	this->setmode( ChartLyrics );
 }
 
-lyric& crawler::getLyric( string title, string auth ) {
+lyric& crawler::getLyric( string title, string auth, lyric& out ) {
+
 	string path;
-	string lyr;
-	lyric ret;
+	string rawLyric;
 
 	auth = crawler::atohex( auth );
 	title = crawler::atohex( title );
@@ -48,43 +48,30 @@ lyric& crawler::getLyric( string title, string auth ) {
 			path = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist="+auth+"&song="+title;
 			break;
 		default:
-			ret.setStatus( CRAW_ERR, "Not Such Site" );
+			out.setStatus( CRAW_ERR, "Not Such Site" );
+			return out;
 			break;
 	}
 
 
-	if( ret.getStatus() != CRAW_ERR ) {
-		lyr = this->getData( path );
-	} else {
-		ret.setStatus( CRAW_ERR ,"Not supported sitemode");
-	}
+	rawLyric= this->getData( path );
 
+	// I define res in the getData function, is the curl error code.
 	if( this->res != 0 ) {
-		ret.setStatus( CRAW_ERR ,this->getCurlErrMessage());
+		out.setStatus( CRAW_ERR , (string)this->errMessage );
+		return out;
 	} else {
-		ret = this->getLyricFromXML( lyr );
+		this->getLyricFromXML( rawLyric, out );
 	}
 
-	if( ret.getStatus() == CRAW_ERR && ret.getErrMsg() == "No error message specified.") {
-		ret.setStatus( CRAW_ERR ,"Not valid XML file" );
-	}
-
-	return ret;
+	return out;
 }
 
 void crawler::setmode( sitemode m ) {
 	this->mode = m;
 }
 
-string crawler::getCurlErrMessage() const {
-	if( this->errMessage != NULL ) {
-		return (string) this->errMessage;
-	} else {
-		return "No cURL Error";
-	}
-}
-
-string& crawler::getData( string& path ) {
+string crawler::getData( string& path ) {
 	string ret;
 
 	curl_easy_setopt( this->curl, CURLOPT_URL, path.c_str() );
@@ -95,8 +82,8 @@ string& crawler::getData( string& path ) {
 	return ret;
 }
 
-lyric& crawler::getLyricFromXML( string& data ) {
-	lyric* ret;
+lyric& crawler::getLyricFromXML( string& data, lyric& out ) {
+
 	string auth, title, text;
 
 	title = crawler::getTagContent( "<LyricSong>",data );
@@ -104,13 +91,12 @@ lyric& crawler::getLyricFromXML( string& data ) {
 	text = crawler::getTagContent( "<Lyric>",data );
 
 	if( text == "" || title == "" || auth == "" ) {
-		ret = new lyric();
-		ret->setStatus( CRAW_ERR );
+		out.setStatus( CRAW_ERR, "Error while parsing XML" );
 	} else {
-		ret = new lyric( title,auth,text );
+		out.setData( title,auth,text );
 	}
 
-	return *ret;
+	return out;
 }
 
 string& crawler::atohex( string& str ) const {
@@ -131,7 +117,7 @@ string& crawler::atohex( string& str ) const {
 	return str;
 }
 
-string& crawler::getTagContent( string tag, string& data ) const {
+string crawler::getTagContent( string tag, string& data ) const {
 	string ret;
 	size_t p[2];
 

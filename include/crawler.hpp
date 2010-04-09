@@ -42,20 +42,20 @@ class crawler {
 		curl_easy_cleanup( this->curl );
 	}
 
-	lyric& getLyric( std::string, std::string );
+	lyric& getLyric( std::string, std::string, lyric& );
 
-	std::string getCurlErrMessage() const;
 	void setmode( sitemode );
 
 	private:
 
 	sitemode mode;
 
-	std::string& getData( std::string& );
-	lyric& getLyricFromXML( std::string& );
+	std::string getData( std::string& );
+	lyric& getLyricFromXML( std::string&, lyric& );
 
+	// XML patrsing utils.
 	std::string& atohex(std::string&) const;
-	std::string& getTagContent( std::string,std::string& ) const;
+	std::string getTagContent( std::string, std::string& ) const;
 
 	// cURL utils.
 	static int curl_write( char*,size_t,size_t,std::string& );
