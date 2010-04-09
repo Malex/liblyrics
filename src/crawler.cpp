@@ -54,7 +54,7 @@ lyric& crawler::getLyric( string title, string auth, lyric& out ) {
 	}
 
 
-	rawLyric= this->getData( path );
+	rawLyric = this->getData( path );
 
 	// I define res in the getData function, is the curl error code.
 	if( this->res != 0 ) {

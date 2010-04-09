@@ -89,7 +89,10 @@ void dbinterface::addEntry( lyric& in ) {
 	}
 
 	string QAddEntry = "insert into lyrics(title, author, text) \
-			values('"+in.getTitle()+"','"+in.getAuth()+"','"+in.getText()+"')";
+			values('"+parseSql(in.getTitle())+"',\
+			'"+parseSql(in.getAuth())+"',\
+			'"+parseSql(in.getText())+"')";
+
 	this->retval = sqlite3_prepare_v2( dbHandle, QAddEntry.c_str(), 
 				-1, &stmt, NULL );
 	if( this->retval != 0 ) {
@@ -124,3 +127,13 @@ void dbinterface::dbinit( string dbPath ) {
 	
 }
 
+string dbinterface::parseSql( string out ) {	
+
+	for( size_t i=0; i<out.size(); ++i ) {
+		if( out[i] == '\'' ) {
+			out.insert( i, "'" );
+			++i;
+		}
+	}
+	return out;
+}

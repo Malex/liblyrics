@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <string>
 #include "dbinterface.hpp"
 #include "types.hpp"
 
@@ -8,7 +9,7 @@ using namespace liblyrics;
 
 int main() {
 
-	lyric song( "fossi figo", "elio", "....." );
+	lyric song( "fossi figo", "elio", "...''.." );
 	lyric ret;
 	dbinterface db( "./examples/dbinterfaceTest.db" );
 
@@ -24,6 +25,8 @@ int main() {
 	cout<<"Autore"<<setw(10)<<"Titolo"<<endl;
 	cout<<ret.getAuth()<<setw(16)<<ret.getTitle()<<endl;
 
+	cout<<"Testo:"<<endl<<ret.getText()<<endl;
+	cout<<ret.getErrMsg()<<endl;
 	return 0;
 
 }

@@ -45,8 +45,10 @@ class dbinterface {
 	private:
 
 	void dbinit( std::string dbPath );
-
+	std::string 	parseSql( std::string );
 	std::string 	dbpath;
+
+	// SQLite utils.
 	sqlite3*	dbHandle;
 	sqlite3_stmt*	stmt;
 	int 		retval;

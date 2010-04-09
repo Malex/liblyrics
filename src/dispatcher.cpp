@@ -56,7 +56,7 @@ lyric& dispatcher::getLyric( const string title, const string auth, lyric& out )
 	
 	if( out.getStatus() != OK ) {
 		this->craw->getLyric( title, auth, out );
-		//this->db->addEntry( out );
+		this->db->addEntry( out );
 	}
 
 	return out;
