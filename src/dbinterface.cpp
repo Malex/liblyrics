@@ -94,6 +94,11 @@ void dbinterface::addEntry( lyric& in ) {
 
 }
 
+dbinterface::~dbinterface() {
+	sqlite3_finalize( stmt );
+	sqlite3_close( dbHandle );
+}
+
 // Private
 
 void dbinterface::dbinit( string dbPath ) {

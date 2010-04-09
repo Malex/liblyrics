@@ -40,6 +40,8 @@ class dbinterface {
 	void addEntry( lyric& );
 	// per ora non serve altro.
 
+	~dbinterface();
+
 	private:
 
 	void dbinit( std::string dbPath );
