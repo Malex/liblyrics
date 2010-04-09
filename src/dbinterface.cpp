@@ -70,6 +70,12 @@ lyric& dbinterface::get( string title, string author, lyric& outLyric ) {
 		}
 	}
 	
+	// Check for empty return values.
+	if( ltitle.empty() || lauth.empty() || ltext.empty() ) {
+		outLyric.setStatus( DB_ERR, "No entryes in db." );
+		return outLyric;
+	}
+
 	outLyric.setData( ltitle, lauth, ltext );
 	outLyric.setStatus( OK );
 	return outLyric;
@@ -107,7 +113,7 @@ void dbinterface::dbinit( string dbPath ) {
 			id integer primary key autoincrement,\
 			title varchar(255),\
 			author varchar(255),\
-			text data)";
+			text text)";
 
 	// TODO: Gestione errori
 	this->retval = sqlite3_open( dbPath.c_str(), &dbHandle );

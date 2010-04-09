@@ -62,7 +62,7 @@ class lyric : public errors {
 	std::string getTitle() const;
 	std::string getAuth() const;
 	std::string getText() const;
-	void setData( std::string, std::string, std::string );
+	lyric& setData( std::string, std::string, std::string );
 
 	private:
 

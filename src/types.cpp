@@ -78,7 +78,7 @@ string lyric::getText() const {
 	return this->text;
 }
 
-void lyric::setData( string title, string auth, string text ) {
+lyric& lyric::setData( string title, string auth, string text ) {
 	this->title	= title;
 	this->author	= auth;
 	this->text	= text;
