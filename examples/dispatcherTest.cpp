@@ -6,10 +6,10 @@ using namespace liblyrics;
 using namespace std;
 
 int main( int argc, char* argv[]) {
-	dispatcher omg;
+	dispatcher omg( "./examples/dispatcher.db" );
 	string text;
-	if( !omg.get( "michael jackson", "beat it", text ) )
-		cout<<text<<endl;
+	if( omg.get( "Give it to me","Madonna", text ) == LYRIC_OK )
+		cout<<"Text:"<<endl<<text<<endl;
 	else
 		cout<<"Here's the err message:"<<endl<<text<<endl;
 

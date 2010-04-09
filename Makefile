@@ -6,11 +6,9 @@ DIR	= src
 BIN	= bin
 EXMPL	= examples
 
-all : types crawler dbinterface 
-# dispatcher
+all : types crawler dbinterface  dispatcher
 
-examples : typesTest crawlerTest dbinterfaceTest
-# dispatcherTest
+examples : typesTest crawlerTest dbinterfaceTest dispatcherTest
 
 clean :
 	rm -rf $(BIN)/* $(EXMPL)/*.example $(EXMPL)/*.db

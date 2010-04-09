@@ -102,14 +102,14 @@ lyric& crawler::getLyricFromXML( string& data, lyric& out ) {
 string& crawler::atohex( string& str ) const {
 	char tmp[2];
 
-	for(uint i=0;i<str.length();i++) {
-		if((char) str[i] < 65 ||
+	for( size_t i=0; i<str.length(); i++ ) {
+		if( (char) str[i] < 65 ||
 			((char) str[i] > 90 && (char) str[i] < 97) ||
-			(char) str[i] > 122) {
+			(char) str[i] > 122 ) {
 
-			sprintf( tmp,"%x",(char) str[i] );
-			str.insert( i,"%"+(string) tmp );
-			str.erase( i+3,1 );
+			sprintf( tmp, "%x", (char) str[i] );
+			str.insert( i, "%"+(string) tmp );
+			str.erase( i+3, 1 );
 			i+=2;
 
 		}

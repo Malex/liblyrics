@@ -40,32 +40,26 @@ class dispatcher {
 
 	public:
 
-	dispatcher();
 	dispatcher(std::string);
 
 	~dispatcher();
 
 	int get( const std::string, const std::string, 
 		std::string& // OUT
-		) const;
+		);
 
-	lyric getLyric( std::string, std::string ) const;
-
-	std::string getStatus() const;
+	lyric& getLyric( std::string, std::string, lyric& );
 
 	private:
 
-	lyric getLyric( std::string, std::string, sitemode ) const;
-
-	// Queste a che servono?
-	std::string status;
-	void setStatus( std::string );
+	lyric& getLyric( const std::string, const std::string, sitemode ) const;
 
 	lyric getFromCrawler( sitemode, std::string, std::string ) const;
 	lyric getFromDB( std::string, std::string ) const;
 
 	dbinterface* db;
 	crawler* craw;
+	lyric L;
 };
 
 } // namespace liblyrics

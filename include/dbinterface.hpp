@@ -49,7 +49,7 @@ class dbinterface {
 	std::string 	dbpath;
 	sqlite3*	dbHandle;
 	sqlite3_stmt*	stmt;
-	uint 		retval;
+	int 		retval;
 
 };
 

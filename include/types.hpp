@@ -27,8 +27,6 @@
 
 namespace liblyrics {
 
-typedef unsigned int uint;
-
 enum status_t {
 	OK		= 0,
 	NOT_INIT	= 1,

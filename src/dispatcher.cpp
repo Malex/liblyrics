@@ -24,11 +24,6 @@
 using namespace std;
 using namespace liblyrics;
 
-dispatcher::dispatcher() {
-	this->db	= new dbinterface("data.db");
-	this->craw	= new crawler();
-}
-
 dispatcher::dispatcher( string dbPath ) {
 	this->db = new dbinterface(dbPath);
 	this->craw = new crawler();
@@ -39,39 +34,30 @@ dispatcher::~dispatcher() {
 	delete this->craw;
 }
 
-int dispatcher::get( string title, string auth, string& text ) const {
+int dispatcher::get( const string title, const string auth, string& outText ) {
 
-	lyric tmp = getLyric( title, auth );
+	getLyric( title, auth, L );
 	
-	if( tmp.e.getStatus() == OK ) {
-		text = tmp.getText();
+	if( L.getStatus() == OK ) {
+		outText = L.getText();
 		return LYRIC_OK;
 	} else {
-		text = "Some errors.";
+		outText = L.getErrMsg();
 		return LYRIC_DB_ERR;
 	}
 
 
 }
 
-lyric dispatcher::getLyric( string title,string auth ) const {
+lyric& dispatcher::getLyric( const string title, const string auth, lyric& out ) {
+
+	this->db->get( title, auth, out );
 	
-	lyric ret;
-
-	ret = this->db->get( title, auth );
-
-	if( ret.e.getStatus()!= OK ) {
-		ret = this->craw->getLyric( title,auth );
-		this->db->addEntry( &ret );
+	if( out.getStatus() != OK ) {
+		this->craw->getLyric( title, auth, out );
+		this->db->addEntry( out );
 	}
 
-	return ret;
+	return out;
 }
 
-string dispatcher::getStatus() const {
-	return this->status;
-}
-
-void dispatcher::setStatus( string new_status ) {
-	this->status = new_status;
-}
