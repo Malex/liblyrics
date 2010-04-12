@@ -126,7 +126,7 @@ string crawler::getTagContent( string tag, string& data ) const {
 	p[1] = data.find( tag );
 
 	if( p[0] != string::npos ) {
-		ret = data.substr( p[0]+(tag.length())+1,p[1]-(p[0]+(tag.length())+1) );
+		ret = data.substr( p[0]-1+(tag.length()),p[1]+1-(p[0]+(tag.length())) );
 	} else {
 		ret = "";
 	}
@@ -134,7 +134,7 @@ string crawler::getTagContent( string tag, string& data ) const {
 	return ret;
 }
 
-int crawler::curl_write( char* data,size_t size,size_t nsize,string& buffer ) {
+int crawler::curl_write( char* data, size_t size, size_t nsize, string& buffer ) {
 	int ret = 0;
 	if( &buffer !=NULL ) {
 		ret = size*nsize;
