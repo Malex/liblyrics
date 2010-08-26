@@ -4,4 +4,5 @@
 4- Implementare la ricerca per il dbinterface ( dopo punto 2 )
 5- Implementare la ricerca per il crawler, tramite api chartlyrics
 6- dispatcher improvements.
+7- Fix bug of redictering
 END
