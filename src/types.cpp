@@ -83,5 +83,6 @@ lyric& lyric::setData( string title, string auth, string text ) {
 	this->author	= auth;
 	this->text	= text;
 	this->setStatus( OK );
+	return *this;
 }
 
